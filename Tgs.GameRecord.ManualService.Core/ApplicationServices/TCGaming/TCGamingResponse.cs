@@ -4,8 +4,8 @@
     {
         public bool Success { get; init; }
 
-        public string LastGameRecorDirectory { get; set; } = default!;
+        public string LastGameRecordDirectory { get; set; } = default!;
 
-        public string LastGameRecorFile { get; set; } = default!;
+        public string LastGameRecordFile { get; set; } = default!;
     }
 }

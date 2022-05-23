@@ -23,8 +23,8 @@ namespace Tgs.GameRecord.ManualService.Controllers
         ///             "subGP": "TCG_LOTTO",
         ///             "merchantCode": "pegacnys",
         ///             "isDesignation": true,
-        ///             "lastGameRecorDirectory": "20220113",
-        ///             "lastGameRecorFile": "202201131345_0001.json"
+        ///             "LastGameRecordDirectory": "20220113",
+        ///             "LastGameRecordFile": "202201131345_0001.json"
         ///         }
         /// </remarks>
         [HttpPost]
@@ -37,15 +37,15 @@ namespace Tgs.GameRecord.ManualService.Controllers
                 IsDesignation = model.IsDesignation,
                 SubGP = model.SubGP,
                 MerchantCode = model.MerchantCode,
-                LastGameRecorDirectory = model.LastGameRecorDirectory,
-                LastGameRecorFile = model.LastGameRecorFile
+                LastGameRecordDirectory = model.LastGameRecordDirectory,
+                LastGameRecordFile = model.LastGameRecordFile
             }).ConfigureAwait(false);
 
             return new TCGamingResultViewModel()
             {
                 Success = result.Success,
-                LastGameRecorDirectory = result.LastGameRecorDirectory,
-                LastGameRecorFile = result.LastGameRecorFile
+                LastGameRecordDirectory = result.LastGameRecordDirectory,
+                LastGameRecordFile = result.LastGameRecordFile
             };
         }
     }
