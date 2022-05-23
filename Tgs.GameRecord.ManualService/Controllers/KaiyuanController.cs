@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Kaiyuan.Models;
-using Tgs.GameRecord.ManualService.Kaiyuan.ViewModels;
+using Tgs.GameRecord.ManualService.Core.ApplicationServices.Kaiyuan;
+using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.ServiceUtility;
 
-namespace Tgs.GameRecord.ManualService.Kaiyuan.Controllers
+namespace Tgs.GameRecord.ManualService.Controllers
 {
     [Route("KY")]
     [ApiController]

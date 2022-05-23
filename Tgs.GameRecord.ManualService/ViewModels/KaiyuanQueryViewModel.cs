@@ -1,4 +1,4 @@
-﻿namespace Tgs.GameRecord.ManualService.Kaiyuan.ViewModels
+﻿namespace Tgs.GameRecord.ManualService.ViewModels
 {
     public record KaiyuanQueryViewModel
     {

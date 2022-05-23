@@ -1,6 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.Kaiyuan.Models
+﻿namespace Tgs.GameRecord.ManualService.ViewModels
 {
-    public record KaiyuanResponse
+    public record VRGamingResultViewModel
     {
         public bool Success { get; init; }
         public DateTimeOffset? LastGameRecorTime { get; init; }

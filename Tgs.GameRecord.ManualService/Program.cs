@@ -61,7 +61,16 @@ builder.Services
          });
      })
     .ClearAllExchanges()
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.ky");
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.avia")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.bg.fishing")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.ky")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.ly")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.tcg")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.vr")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.wgvia")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.wgfm")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.dg")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.joker");
 
 builder.Services
      .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
