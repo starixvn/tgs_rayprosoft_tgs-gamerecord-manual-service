@@ -1,10 +1,9 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Tgs.GameRecord.ManualService.Kaiyuan.Models;
 using Tgs.MessageQueue;
 using Tgs.ServiceUtility;
 
-namespace Tgs.GameRecord.ManualService.Core.ApplicationServices
+namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Kaiyuan
 {
     internal class KaiyuanGetService : IGetService<KaiyuanRequest, KaiyuanResponse>
     {

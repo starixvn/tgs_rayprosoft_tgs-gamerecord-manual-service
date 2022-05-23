@@ -1,6 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.Kaiyuan.Models
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.LEGaming
 {
-    public record KaiyuanRequest
+    public record LEGamingRequest
     {
         public string BrandCode { get; init; } = default!;
 
