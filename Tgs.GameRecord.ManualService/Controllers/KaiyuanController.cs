@@ -42,7 +42,7 @@ namespace Tgs.GameRecord.ManualService.Controllers
             return new KaiyuanResultViewModel()
             {
                 Success = result.Success,
-                LastGameRecorTime = result.LastGameRecorTime,
+                LastGameRecordTime = result.LastGameRecordTime,
                 SuccessCount = result.SuccessCount,
                 FailCount = result.FailCount,
                 Count = result.Count,
