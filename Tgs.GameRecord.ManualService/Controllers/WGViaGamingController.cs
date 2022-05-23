@@ -38,7 +38,7 @@ namespace Tgs.GameRecord.ManualService.Controllers
             return new WGViaGamingResultViewModel()
             {
                 Success = result.Success,
-                LastGameRecorTime = result.LastGameRecorTime,
+                LastGameRecordTime = result.LastGameRecordTime,
                 SuccessCount = result.SuccessCount,
                 FailCount = result.FailCount,
                 Count = result.Count,
