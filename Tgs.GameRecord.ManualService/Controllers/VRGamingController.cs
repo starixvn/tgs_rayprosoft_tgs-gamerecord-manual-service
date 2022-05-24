@@ -42,7 +42,7 @@ namespace Tgs.GameRecord.ManualService.Controllers
                 Success = result.Success,
                 LastGameRecordTime = result.LastGameRecordTime,
                 SuccessCount = result.SuccessCount,
-                FailCount = result.FailCount,
+                FailureCount = result.FailureCount,
                 Count = result.Count,
             };
         }
