@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.AVIAGaming;
+﻿using System.Text.Json;
 using Tgs.MessageQueue;
 using Tgs.ServiceUtility;
 
