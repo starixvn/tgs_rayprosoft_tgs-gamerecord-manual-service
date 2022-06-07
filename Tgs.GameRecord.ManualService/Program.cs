@@ -71,6 +71,7 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.wgfm")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.dg")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.joker")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.pptf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.awc");
 
 builder.Services
