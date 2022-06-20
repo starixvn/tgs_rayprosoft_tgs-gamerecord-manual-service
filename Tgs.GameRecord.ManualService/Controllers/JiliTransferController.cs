@@ -20,9 +20,9 @@ namespace Tgs.GameRecord.ManualService.Controllers
         ///
         ///     Post
         ///         {
-        ///             "gameRecordApiUrl":"https://uat-wb-api.jlfafafa2.com/",
+        ///             "gameApiUrl":"https://uat-wb-api.jlfafafa2.com/",
         ///             "gameProviderAgentId":"PG_GPI_CNY",
-        ///             "gameProviderCert":"82af5971ae233eaa003b774be4079e7902ea7ff4",
+        ///             "gameProviderAgentKey":"82af5971ae233eaa003b774be4079e7902ea7ff4",
         ///             "startTime": "2022-06-20T10:00:00.000Z",
         ///             "endTime": "2022-06-20T11:00:00.000Z"
         ///         }
