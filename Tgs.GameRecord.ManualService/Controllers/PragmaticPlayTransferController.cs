@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.AVIAGaming;
+﻿using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.Core.ApplicationServices.PragmaticPlayTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.ServiceUtility;
