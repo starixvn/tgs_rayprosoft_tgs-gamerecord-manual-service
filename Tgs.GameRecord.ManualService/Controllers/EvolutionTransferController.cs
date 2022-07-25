@@ -23,8 +23,8 @@ namespace Tgs.GameRecord.ManualService.Controllers
         ///             "gameApiUrl":"https://babylonpega2.uat1.evo-test.com/",
         ///             "casinoId":"babylonpega20001",
         ///             "gameHistoryApiToken":"test123",
-        ///             "startTime": "2022-07-15T10:00:00.000Z",
-        ///             "endTime": "2022-07-16T11:00:00.000Z"
+        ///             "startDate": "2022-07-15T10:00:00.000Z",
+        ///             "endDate": "2022-07-15T11:00:00.000Z"
         ///         }
         /// </remarks>
         [HttpPost]
@@ -36,8 +36,8 @@ namespace Tgs.GameRecord.ManualService.Controllers
                 GameApiUrl: model.GameApiUrl,
                 CasinoId: model.CasinoId,
                 GameHistoryApiToken: model.GameHistoryApiToken,
-                StartTime: model.StartTime,
-                EndTime: model.EndTime)).ConfigureAwait(false);
+                StartDate: model.StartDate,
+                EndDate: model.EndDate)).ConfigureAwait(false);
 
             return new EvolutionTransferResultViewModel()
             {
