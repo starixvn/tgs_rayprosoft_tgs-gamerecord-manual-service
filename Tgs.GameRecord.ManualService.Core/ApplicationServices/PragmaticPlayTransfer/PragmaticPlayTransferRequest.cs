@@ -1,6 +1,6 @@
 ﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.PragmaticPlayTransfer;
 
 public record PragmaticPlayTransferRequest(
-    PragmaticPlayTransferDataType DataType,
+    PragmaticPlayTransferDataType GameDataType,
     DateTimeOffset StartTime,
     DateTimeOffset EndTime);

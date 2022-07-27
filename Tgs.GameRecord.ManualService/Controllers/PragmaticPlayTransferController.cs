@@ -30,7 +30,7 @@ public class PragmaticPlayTransferController : ControllerBase
         PragmaticPlayTransferQueryViewModel model)
     {
         var request = new PragmaticPlayTransferRequest(
-            DataType: PragmaticPlayTransferDataType.Fishing,
+            GameDataType: PragmaticPlayTransferDataType.Fishing,
             StartTime: model.StartTime,
             EndTime: model.EndTime);
 
@@ -66,7 +66,7 @@ public class PragmaticPlayTransferController : ControllerBase
         PragmaticPlayTransferQueryViewModel model)
     {
         var request = new PragmaticPlayTransferRequest(
-            DataType: PragmaticPlayTransferDataType.LiveDealer,
+            GameDataType: PragmaticPlayTransferDataType.LiveDealer,
             StartTime: model.StartTime,
             EndTime: model.EndTime);
 
@@ -102,7 +102,7 @@ public class PragmaticPlayTransferController : ControllerBase
         PragmaticPlayTransferQueryViewModel model)
     {
         var request = new PragmaticPlayTransferRequest(
-            DataType: PragmaticPlayTransferDataType.RNG,
+            GameDataType: PragmaticPlayTransferDataType.RNG,
             StartTime: model.StartTime,
             EndTime: model.EndTime);
 
@@ -138,7 +138,7 @@ public class PragmaticPlayTransferController : ControllerBase
         PragmaticPlayTransferQueryViewModel model)
     {
         var request = new PragmaticPlayTransferRequest(
-            DataType: PragmaticPlayTransferDataType.VirtualSports,
+            GameDataType: PragmaticPlayTransferDataType.VirtualSports,
             StartTime: model.StartTime,
             EndTime: model.EndTime);
 
