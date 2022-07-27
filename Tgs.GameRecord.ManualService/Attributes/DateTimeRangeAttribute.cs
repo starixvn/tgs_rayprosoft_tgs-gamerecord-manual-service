@@ -27,7 +27,7 @@ namespace Tgs.GameRecord.ManualService.Attributes
 
             return startDateTime < endDateTime && diffTimeSpan.TotalSeconds <= MaxLimitSeconds ?
                 ValidationResult.Success :
-                new ValidationResult($"The start time cannot be less than the end time, and the time range is limited ({MaxLimitSeconds}s).");
+                new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited ({MaxLimitSeconds}s).");
         }
     }
 }
