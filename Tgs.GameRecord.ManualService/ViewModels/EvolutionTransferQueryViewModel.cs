@@ -16,7 +16,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels
         public DateTime StartDate { get; init; }
         [Required]
         [DataType(DataType.DateTime)]
-        [DateTimeRange("StartDate", 3600)]
+        [DateTimeRange("StartDate", 900)]
         public DateTime EndDate { get; init; }
     }
 }
