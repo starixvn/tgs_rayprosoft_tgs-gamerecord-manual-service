@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.EvolutionTransfer
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.EvolutionTransfer;
+
+public record EvolutionTransferResponse
 {
-    public record EvolutionTransferResponse
-    {
-        public bool Success { get; init; }
-    }
+    public bool Success { get; init; }
 }

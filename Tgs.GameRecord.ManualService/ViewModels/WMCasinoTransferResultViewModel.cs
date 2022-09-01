@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.ViewModels
+﻿namespace Tgs.GameRecord.ManualService.ViewModels;
+
+public record WMCasinoTransferResultViewModel
 {
-    public record WMCasinoTransferResultViewModel
-    {
-        public bool Success { get; init; }
-    }
+    public bool Success { get; init; }
 }
