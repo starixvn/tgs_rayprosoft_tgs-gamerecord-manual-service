@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.WMCasinoTransfer
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.WMCasinoTransfer;
+
+public record WMCasinoTransferResponse
 {
-    public record WMCasinoTransferResponse
-    {
-        public bool Success { get; init; }
-    }
+    public bool Success { get; init; }
 }

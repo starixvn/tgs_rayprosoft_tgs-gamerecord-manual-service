@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.ViewModels
+﻿namespace Tgs.GameRecord.ManualService.ViewModels;
+
+public record AwcResultViewModel
 {
-    public record AwcResultViewModel
-    {
-        public bool Success { get; init; }
-    }
+    public bool Success { get; init; }
 }

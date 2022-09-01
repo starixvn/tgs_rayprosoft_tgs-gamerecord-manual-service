@@ -1,9 +1,8 @@
-﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.WGViaGaming
-{
-    public record WGViaGamingRequest
-    {
-        public DateTimeOffset StartTime { get; init; } = default!;
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.WGViaGaming;
 
-        public DateTimeOffset EndTime { get; init; } = default!;
-    }
+public record WGViaGamingRequest
+{
+    public DateTimeOffset StartTime { get; init; } = default!;
+
+    public DateTimeOffset EndTime { get; init; } = default!;
 }
