@@ -1,9 +1,8 @@
-﻿namespace Tgs.GameRecord.ManualService.ViewModels
-{
-    public record WGViaGamingQueryViewModel
-    {
-        public DateTimeOffset StartTime { get; init; } = default!;
+﻿namespace Tgs.GameRecord.ManualService.ViewModels;
 
-        public DateTimeOffset EndTime { get; init; } = default!;
-    }
+public record WGViaGamingQueryViewModel
+{
+    public DateTimeOffset StartTime { get; init; } = default!;
+
+    public DateTimeOffset EndTime { get; init; } = default!;
 }

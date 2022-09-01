@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.JiliTransfer
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.JiliTransfer;
+
+public record JiliTransferResponse
 {
-    public record JiliTransferResponse
-    {
-        public bool Success { get; init; }
-    }
+    public bool Success { get; init; }
 }

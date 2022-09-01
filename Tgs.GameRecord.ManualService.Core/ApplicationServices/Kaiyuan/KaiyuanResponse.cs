@@ -1,11 +1,10 @@
-﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Kaiyuan
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Kaiyuan;
+
+public record KaiyuanResponse
 {
-    public record KaiyuanResponse
-    {
-        public bool Success { get; init; }
-        public DateTimeOffset? LastGameRecordTime { get; init; }
-        public int SuccessCount { get; set; }
-        public int FailureCount { get; set; }
-        public int Count { get; init; }
-    }
+    public bool Success { get; init; }
+    public DateTimeOffset? LastGameRecordTime { get; init; }
+    public int SuccessCount { get; set; }
+    public int FailureCount { get; set; }
+    public int Count { get; init; }
 }
