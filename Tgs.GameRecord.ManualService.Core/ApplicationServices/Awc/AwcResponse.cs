@@ -1,7 +1,6 @@
-﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Awc
+﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Awc;
+
+public record AwcResponse
 {
-    public record AwcResponse
-    {
-        public bool Success { get; init; }
-    }
+    public bool Success { get; init; }
 }
