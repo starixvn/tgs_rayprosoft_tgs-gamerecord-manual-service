@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Resources;
@@ -44,7 +43,6 @@ builder.Services.AddSwaggerGen(c =>
     {
         c.IncludeXmlComments(xmlFileName);
     }
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tgs.GameRecord.ManualService", Version = "v1" });
 });
 
 builder.Services.AddManualServiceCore();
@@ -76,7 +74,8 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.jilitf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.wmtf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.evotf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.swtf");
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.swtf")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.jdbtf");
 
 builder.Services
      .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
