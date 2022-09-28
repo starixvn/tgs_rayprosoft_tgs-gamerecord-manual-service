@@ -1,9 +1,23 @@
-﻿namespace Tgs.GameRecord.ManualService.ViewModels;
+﻿using System.ComponentModel.DataAnnotations;
+using Tgs.GameRecord.ManualService.Attributes;
 
-public record AwcQueryViewModel(
-    Uri GameRecordApiUrl,
-    string GameProviderCode,
-    string GameProviderAgentId,
-    string GameProviderCert,
-    DateTimeOffset StartTime,
-    DateTimeOffset EndTime);
+namespace Tgs.GameRecord.ManualService.ViewModels;
+
+public record AwcQueryViewModel
+{
+    [Required]
+    public Uri GameRecordApiUrl { get; init; } = default!;
+    [Required]
+    public string GameProviderCode { get; init; } = default!;
+    [Required]
+    public string GameProviderAgentId { get; init; } = default!;
+    [Required]
+    public string GameProviderCert { get; init; } = default!;
+    [Required]
+    [DataType(DataType.DateTime)]
+    public DateTimeOffset StartTime { get; init; }
+    [Required]
+    [DataType(DataType.DateTime)]
+    [DateTimeRange("StartTime", 3600)]
+    public DateTimeOffset EndTime { get; init; }
+}
