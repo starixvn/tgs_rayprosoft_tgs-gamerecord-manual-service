@@ -15,9 +15,9 @@ public record AwcQueryViewModel
     public string GameProviderCert { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTimeOffset StartTime { get; init; }
+    public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
     [DateTimeRange("StartTime", 3600)]
-    public DateTimeOffset EndTime { get; init; }
+    public DateTime EndTime { get; init; }
 }
