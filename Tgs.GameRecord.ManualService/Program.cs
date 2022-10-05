@@ -75,7 +75,8 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.wmtf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.evotf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.swtf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.jdbtf");
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.jdbtf")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sbotf");
 
 builder.Services
      .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
