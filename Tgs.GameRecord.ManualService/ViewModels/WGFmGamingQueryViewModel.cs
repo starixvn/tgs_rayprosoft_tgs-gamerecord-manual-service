@@ -18,6 +18,5 @@ public record WGFmGamingQueryViewModel
     public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 86400)]
     public DateTime EndTime { get; init; }
 }

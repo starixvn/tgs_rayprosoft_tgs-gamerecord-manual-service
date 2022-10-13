@@ -24,8 +24,8 @@ public class SBOTransferController : ControllerBase
     ///             "apiUrl": "https://ex-api-demo-yy.568win.com",
     ///             "companyKey": "49ED28A987624CA0A3F834C3B8A69AAB",
     ///             "agent": "STAG_GPI_CNY",
-    ///             "startTime": "2022-09-22T16:30:00+08:00",
-    ///             "endTime": "2022-09-22T17:00:00+08:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("sportsbook")]

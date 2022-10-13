@@ -15,9 +15,9 @@ public record SkywindTransferQueryViewModel
     public string Password { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartDate { get; init; }
+    public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartDate", 600)]
-    public DateTime EndDate { get; init; }
+    [DateTimeRange("StartTime", 3600)]
+    public DateTime EndTime { get; init; }
 }

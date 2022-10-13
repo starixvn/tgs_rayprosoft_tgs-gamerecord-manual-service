@@ -21,8 +21,8 @@ public class AVIAGamingController : ControllerBase
     ///     Post
     ///         {
     ///             "brandCode":"Default",
-    ///             "startTime":"2021-12-30T01:00:00+00:00",
-    ///             "endTime":"2021-12-30T02:00:00+00:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]

@@ -24,8 +24,8 @@ public class SkywindTransferController : ControllerBase
     ///             "secretKey": "66a44892-54dc-488b-b755-1d1da4f8ad61",
     ///             "username": "PGT_brand_api_stg",
     ///             "password": "ArSg5e6CR2g1wIgB",
-    ///             "startDate": "2022-08-25T11:00:00+08:00",
-    ///             "endDate": "2022-08-25T11:10:00+08:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///          }
     /// </remarks>
     [HttpPost]
@@ -38,8 +38,8 @@ public class SkywindTransferController : ControllerBase
             model.SecretKey,
             model.Username,
             model.Password,
-            model.StartDate,
-            model.EndDate);
+            model.StartTime,
+            model.EndTime);
         var result = await service.GetAsync(
             request,
             HttpContext.RequestAborted

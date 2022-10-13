@@ -24,8 +24,8 @@ public class WGFmGamingController : ControllerBase
     ///             "partnerCode": "TA",
     ///             "partnerKey": "abc1238888888888",
     ///             "partnerIV": "cba1238888888888",
-    ///             "startTime": "2022-08-25T16:05:00+08:00",
-    ///             "endTime": "2022-08-25T16:10:00+08:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]

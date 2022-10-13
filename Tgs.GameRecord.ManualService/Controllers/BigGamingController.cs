@@ -21,8 +21,8 @@ public class BigGamingController : ControllerBase
     ///     Post
     ///         {
     ///             "currencyCode":"CNY",
-    ///             "startTime":"2021-08-12T01:30:08.1413497+00:00",
-    ///             "endTime":"2021-08-12T01:35:08.1413497+00:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("Fishing")]

@@ -20,8 +20,8 @@ public class PragmaticPlayTransferController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "startTime":"2022-07-26T22:00:00+08:00",
-    ///             "endTime":"2022-07-26T23:00:00+08:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("Fishing")]

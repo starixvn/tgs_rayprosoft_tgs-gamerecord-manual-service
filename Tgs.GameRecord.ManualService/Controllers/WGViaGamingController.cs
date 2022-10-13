@@ -20,8 +20,8 @@ public class WGViaGamingController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "startTime": "2021-10-31T16:00:00+00:00",
-    ///             "endTime": "2022-11-30T16:00:00+00:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]

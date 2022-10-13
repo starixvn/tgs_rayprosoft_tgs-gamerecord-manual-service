@@ -9,23 +9,23 @@ public class DateTimeRangeAttribute : ValidationAttribute
 {
     private int MaxLimitSeconds { get; set; }
 
-    private string StartDateTime { get; set; }
+    private string StartTime { get; set; }
 
-    public DateTimeRangeAttribute(string startDateTime, int maxLimitSeconds)
+    public DateTimeRangeAttribute(string startTime, int maxLimitSeconds)
     {
-        StartDateTime = startDateTime;
+        StartTime = startTime;
         MaxLimitSeconds = maxLimitSeconds;
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        DateTime endDateTime = (DateTime)value;
+        DateTime endTime = (DateTime)value;
 
-        DateTime startDateTime = (DateTime)validationContext.ObjectType.GetProperty(StartDateTime).GetValue(validationContext.ObjectInstance, null);
+        DateTime startTime = (DateTime)validationContext.ObjectType.GetProperty(StartTime).GetValue(validationContext.ObjectInstance, null);
 
-        TimeSpan diffTimeSpan = endDateTime.Subtract(startDateTime);
+        TimeSpan diffTimeSpan = endTime.Subtract(startTime);
 
-        return startDateTime < endDateTime && diffTimeSpan.TotalSeconds <= MaxLimitSeconds ?
+        return startTime < endTime && diffTimeSpan.TotalSeconds <= MaxLimitSeconds ?
             ValidationResult.Success :
             new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited ({MaxLimitSeconds}s).");
     }

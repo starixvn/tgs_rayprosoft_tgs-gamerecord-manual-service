@@ -23,8 +23,8 @@ public class EvolutionTransferController : ControllerBase
     ///             "gameApiUrl":"https://babylonpega2.uat1.evo-test.com/",
     ///             "casinoId":"babylonpega20001",
     ///             "gameHistoryApiToken":"test123",
-    ///             "startDate": "2022-07-15T10:00:00.000Z",
-    ///             "endDate": "2022-07-15T11:00:00.000Z"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
@@ -36,8 +36,8 @@ public class EvolutionTransferController : ControllerBase
             GameApiUrl: model.GameApiUrl,
             CasinoId: model.CasinoId,
             GameHistoryApiToken: model.GameHistoryApiToken,
-            StartDate: model.StartDate,
-            EndDate: model.EndDate)).ConfigureAwait(false);
+            StartDate: model.StartTime,
+            EndDate: model.EndTime)).ConfigureAwait(false);
 
         return new EvolutionTransferResultViewModel()
         {

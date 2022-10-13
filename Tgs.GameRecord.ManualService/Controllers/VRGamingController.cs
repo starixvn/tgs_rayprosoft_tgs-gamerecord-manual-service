@@ -21,8 +21,8 @@ public class VRGamingController : ControllerBase
     ///     Post
     ///         {
     ///             "brandCode":"Default",
-    ///             "startTime":"2022-01-01T00:00:00+00:00",
-    ///             "endTime":"2022-01-31T04:00:00+00:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]

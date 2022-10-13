@@ -24,8 +24,8 @@ public class AwcController : ControllerBase
     ///             "gameProviderCode":"AWC_VENUS",
     ///             "gameProviderAgentId":"cnygpivenus",
     ///             "gameProviderCert":"DfyfVhwJ8akfz2aGo3K",
-    ///             "startTime": "2022-05-31T07:00:00.000Z",
-    ///             "endTime": "2022-05-31T08:00:00.000Z"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]

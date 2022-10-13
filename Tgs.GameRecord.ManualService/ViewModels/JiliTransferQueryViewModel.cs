@@ -16,6 +16,6 @@ public record JiliTransferQueryViewModel
     public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 600)]
+    [DateTimeRange("StartTime", 3600)]
     public DateTime EndTime { get; init; }
 }

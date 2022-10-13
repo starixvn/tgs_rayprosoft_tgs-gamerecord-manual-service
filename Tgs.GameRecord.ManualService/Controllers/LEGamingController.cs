@@ -22,8 +22,8 @@ public class LEGamingController : ControllerBase
     ///         {
     ///             "brandCode": "Default",
     ///             "currencyCode": "HKD",
-    ///             "startTime": "2021-11-02T03:00:00+00:00",
-    ///             "endTime": "2021-11-02T04:00:00+00:00"
+    ///             "startTime": "2022-09-07T18:50:00+08:00",
+    ///             "endTime": "2022-09-07T18:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
