@@ -6,7 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record SkywindTransferQueryViewModel
 {
     [Required]
-    public Uri GameApiUrl { get; init; } = default!;
+    public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string SecretKey { get; init; } = default!;
     [Required]

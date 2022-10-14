@@ -6,7 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record JiliTransferQueryViewModel
 {
     [Required]
-    public Uri GameApiUrl { get; init; } = default!;
+    public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string GameProviderAgentId { get; init; } = default!;
     [Required]

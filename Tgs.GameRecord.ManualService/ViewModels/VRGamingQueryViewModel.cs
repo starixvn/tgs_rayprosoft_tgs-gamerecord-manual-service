@@ -1,10 +1,15 @@
-﻿namespace Tgs.GameRecord.ManualService.ViewModels;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tgs.GameRecord.ManualService.ViewModels;
 
 public record VRGamingQueryViewModel
 {
+    [Required]
     public string BrandCode { get; init; } = default!;
+    [Required]
 
-    public DateTimeOffset StartTime { get; init; } = default!;
+    public DateTime StartTime { get; init; } = default!;
+    [Required]
 
-    public DateTimeOffset EndTime { get; init; } = default!;
+    public DateTime EndTime { get; init; } = default!;
 }

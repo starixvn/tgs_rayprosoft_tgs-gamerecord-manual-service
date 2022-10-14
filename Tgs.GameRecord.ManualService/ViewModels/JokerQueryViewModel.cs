@@ -5,7 +5,9 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 
 public record JokerQueryViewModel()
 {
+    [Required]
     public string BrandCode { get; init; } = default!;
+    [Required]
     public string AgentId { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]

@@ -20,7 +20,7 @@ public class SkywindTransferController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "gameApiUrl": "https://api.gcpstg.m27613.com/",
+    ///             "apiUrl": "https://api.gcpstg.m27613.com/",
     ///             "secretKey": "66a44892-54dc-488b-b755-1d1da4f8ad61",
     ///             "username": "PGT_brand_api_stg",
     ///             "password": "ArSg5e6CR2g1wIgB",
@@ -34,7 +34,7 @@ public class SkywindTransferController : ControllerBase
         SkywindTransferQueryViewModel model)
     {
         var request = new SkywindTransferRequest(
-            model.GameApiUrl,
+            model.ApiUrl,
             model.SecretKey,
             model.Username,
             model.Password,

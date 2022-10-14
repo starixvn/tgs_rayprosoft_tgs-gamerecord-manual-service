@@ -5,7 +5,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record WMCasinoTransferQueryViewModel
 {
     [Required]
-    public Uri GameApiUrl { get; init; } = default!;
+    public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string GameProviderVendorId { get; init; } = default!;
     [Required]

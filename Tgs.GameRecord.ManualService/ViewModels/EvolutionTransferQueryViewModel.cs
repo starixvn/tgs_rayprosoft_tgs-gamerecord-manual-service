@@ -6,7 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record EvolutionTransferQueryViewModel
 {
     [Required]
-    public Uri GameApiUrl { get; init; } = default!;
+    public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string CasinoId { get; init; } = default!;
     [Required]

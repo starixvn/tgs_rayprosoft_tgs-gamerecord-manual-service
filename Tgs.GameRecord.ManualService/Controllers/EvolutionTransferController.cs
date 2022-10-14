@@ -20,7 +20,7 @@ public class EvolutionTransferController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "gameApiUrl":"https://babylonpega2.uat1.evo-test.com/",
+    ///             "apiUrl":"https://babylonpega2.uat1.evo-test.com/",
     ///             "casinoId":"babylonpega20001",
     ///             "gameHistoryApiToken":"test123",
     ///             "startTime": "2022-09-07T18:50:00+08:00",
@@ -33,7 +33,7 @@ public class EvolutionTransferController : ControllerBase
          EvolutionTransferQueryViewModel model)
     {
         var result = await service.GetAsync(new EvolutionTransferRequest(
-            GameApiUrl: model.GameApiUrl,
+            GameApiUrl: model.ApiUrl,
             CasinoId: model.CasinoId,
             GameHistoryApiToken: model.GameHistoryApiToken,
             StartDate: model.StartTime,

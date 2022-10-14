@@ -20,7 +20,7 @@ public class WMCasinoTransferController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "gameApiUrl": "https://api.a45.me/api/public/Gateway.php",
+    ///             "apiUrl": "https://api.a45.me/api/public/Gateway.php",
     ///             "gameProviderVendorId": "hpg02twapi",
     ///             "gameProviderSignature": "89448b444ed2e922ddc3aa0753370238",
     ///             "startTime": "2022-09-07T18:50:00+08:00",
@@ -33,7 +33,7 @@ public class WMCasinoTransferController : ControllerBase
          WMCasinoTransferQueryViewModel model)
     {
         var result = await service.GetAsync(new WMCasinoTransferRequest(
-            GameApiUrl: model.GameApiUrl,
+            GameApiUrl: model.ApiUrl,
             GameProviderVendorId: model.GameProviderVendorId,
             GameProviderSignature: model.GameProviderSignature,
             StartTime: model.StartTime,

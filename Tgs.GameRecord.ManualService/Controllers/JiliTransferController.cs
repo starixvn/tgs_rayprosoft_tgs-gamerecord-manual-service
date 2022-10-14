@@ -20,7 +20,7 @@ public class JiliTransferController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "gameApiUrl":"https://uat-wb-api.jlfafafa2.com/",
+    ///             "apiUrl":"https://uat-wb-api.jlfafafa2.com/",
     ///             "gameProviderAgentId":"PG_GPI_CNY",
     ///             "gameProviderAgentKey":"82af5971ae233eaa003b774be4079e7902ea7ff4",
     ///             "startTime": "2022-09-07T18:50:00+08:00",
@@ -33,7 +33,7 @@ public class JiliTransferController : ControllerBase
          JiliTransferQueryViewModel model)
     {
         var result = await service.GetAsync(new JiliTransferRequest(
-            GameApiUrl: model.GameApiUrl,
+            GameApiUrl: model.ApiUrl,
             GameProviderAgentId: model.GameProviderAgentId,
             GameProviderAgentKey: model.GameProviderAgentKey,
             StartTime: model.StartTime,
