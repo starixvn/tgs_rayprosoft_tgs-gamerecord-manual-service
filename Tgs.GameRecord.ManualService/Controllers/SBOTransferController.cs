@@ -30,10 +30,10 @@ public class SBOTransferController : ControllerBase
     /// </remarks>
     [HttpPost("sportsbook")]
     public async ValueTask<SBOTransferResultViewModel> GameRecordBySportsBookAsync(
-        [FromServices] IGetService<SBOTransferRequest, SBOTransferResponse> service,
+        [FromServices] IGetService<SBOTransferQuery, SBOTransferResult> service,
          SBOTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new SBOTransferRequest(
+        var result = await service.GetAsync(new SBOTransferQuery(
                 ApiUrl: source.ApiUrl,
                 CompanyKey: source.CompanyKey,
                 Agent: source.Agent,
@@ -68,10 +68,10 @@ public class SBOTransferController : ControllerBase
     /// </remarks>
     [HttpPost("virtualsports")]
     public async ValueTask<SBOTransferResultViewModel> GameRecordByVirtualSportsAsync(
-        [FromServices] IGetService<SBOTransferRequest, SBOTransferResponse> service,
+        [FromServices] IGetService<SBOTransferQuery, SBOTransferResult> service,
          SBOTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new SBOTransferRequest(
+        var result = await service.GetAsync(new SBOTransferQuery(
                 ApiUrl: source.ApiUrl,
                 CompanyKey: source.CompanyKey,
                 Agent: source.Agent,

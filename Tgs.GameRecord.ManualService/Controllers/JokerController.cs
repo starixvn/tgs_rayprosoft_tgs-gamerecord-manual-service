@@ -13,7 +13,7 @@ public class JokerController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br/>
@@ -28,15 +28,15 @@ public class JokerController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<JokerResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<JokerRequest, JokerResponse> service,
-        JokerQueryViewModel model)
+        [FromServices] IGetService<JokerQuery, JokerResult> service,
+        JokerQueryViewModel source)
     {
-        var result = await service.GetAsync(new JokerRequest()
+        var result = await service.GetAsync(new JokerQuery()
         {
-            BrandCode = model.BrandCode,
-            AgentId = model.AgentId,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            BrandCode = source.BrandCode,
+            AgentId = source.AgentId,
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new JokerResultViewModel()

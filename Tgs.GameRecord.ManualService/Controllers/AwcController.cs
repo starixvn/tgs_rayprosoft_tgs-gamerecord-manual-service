@@ -13,7 +13,7 @@ public class AwcController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -30,16 +30,16 @@ public class AwcController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<AwcResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<AwcRequest, AwcResponse> service,
-         AwcQueryViewModel model)
+        [FromServices] IGetService<AwcQuery, AwcResult> service,
+         AwcQueryViewModel source)
     {
-        var result = await service.GetAsync(new AwcRequest(
-            GameRecordApiUrl: model.GameRecordApiUrl,
-            GameProviderCode: model.GameProviderCode,
-            GameProviderAgentId: model.GameProviderAgentId,
-            GameProviderCert: model.GameProviderCert,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime)).ConfigureAwait(false);
+        var result = await service.GetAsync(new AwcQuery(
+            GameRecordApiUrl: source.GameRecordApiUrl,
+            GameProviderCode: source.GameProviderCode,
+            GameProviderAgentId: source.GameProviderAgentId,
+            GameProviderCert: source.GameProviderCert,
+            StartTime: source.StartTime,
+            EndTime: source.EndTime)).ConfigureAwait(false);
 
         return new AwcResultViewModel()
         {

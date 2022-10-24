@@ -13,7 +13,7 @@ public class AVIAGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -27,14 +27,14 @@ public class AVIAGamingController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<AVIAGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<AVIAGamingRequest, AVIAGamingResponse> service,
-         AVIAGamingQueryViewModel model)
+        [FromServices] IGetService<AVIAGamingQuery, AVIAGamingResult> service,
+         AVIAGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new AVIAGamingRequest()
+        var result = await service.GetAsync(new AVIAGamingQuery()
         {
-            BrandCode = model.BrandCode,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            BrandCode = source.BrandCode,
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new AVIAGamingResultViewModel()

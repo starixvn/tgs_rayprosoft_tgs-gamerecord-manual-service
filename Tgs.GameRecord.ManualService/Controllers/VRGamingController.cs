@@ -13,7 +13,7 @@ public class VRGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -27,14 +27,14 @@ public class VRGamingController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<VRGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<VRGamingRequest, VRGamingResponse> service,
-         VRGamingQueryViewModel model)
+        [FromServices] IGetService<VRGamingQuery, VRGamingResult> service,
+         VRGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new VRGamingRequest()
+        var result = await service.GetAsync(new VRGamingQuery()
         {
-            BrandCode = model.BrandCode,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            BrandCode = source.BrandCode,
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new VRGamingResultViewModel()

@@ -13,7 +13,7 @@ public class KaiyuanController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -28,15 +28,15 @@ public class KaiyuanController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<KaiyuanResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<KaiyuanRequest, KaiyuanResponse> service,
-         KaiyuanQueryViewModel model)
+        [FromServices] IGetService<KaiyuanQuery, KaiyuanResult> service,
+         KaiyuanQueryViewModel source)
     {
-        var result = await service.GetAsync(new KaiyuanRequest()
+        var result = await service.GetAsync(new KaiyuanQuery()
         {
-            BrandCode = model.BrandCode,
-            CurrencyCode = model.CurrencyCode,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            BrandCode = source.BrandCode,
+            CurrencyCode = source.CurrencyCode,
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new KaiyuanResultViewModel()

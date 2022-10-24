@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.JiliTransfer;
 
-internal class JiliTransferGetService : IGetService<JiliTransferRequest, JiliTransferResponse>
+internal class JiliTransferGetService : IGetService<JiliTransferQuery, JiliTransferResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class JiliTransferGetService : IGetService<JiliTransferRequest, JiliTra
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<JiliTransferResponse> GetAsync(JiliTransferRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<JiliTransferResult> GetAsync(JiliTransferQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.jilitf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<JiliTransferResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<JiliTransferResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

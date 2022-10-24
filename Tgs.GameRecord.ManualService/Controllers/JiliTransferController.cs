@@ -13,7 +13,7 @@ public class JiliTransferController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -29,15 +29,15 @@ public class JiliTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<JiliTransferResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<JiliTransferRequest, JiliTransferResponse> service,
-         JiliTransferQueryViewModel model)
+        [FromServices] IGetService<JiliTransferQuery, JiliTransferResult> service,
+         JiliTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new JiliTransferRequest(
-            GameApiUrl: model.ApiUrl,
-            GameProviderAgentId: model.GameProviderAgentId,
-            GameProviderAgentKey: model.GameProviderAgentKey,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime)).ConfigureAwait(false);
+        var result = await service.GetAsync(new JiliTransferQuery(
+            GameApiUrl: source.ApiUrl,
+            GameProviderAgentId: source.GameProviderAgentId,
+            GameProviderAgentKey: source.GameProviderAgentKey,
+            StartTime: source.StartTime,
+            EndTime: source.EndTime)).ConfigureAwait(false);
 
         return new JiliTransferResultViewModel()
         {

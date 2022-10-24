@@ -31,10 +31,10 @@ public class JDBTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<JDBTransferResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<JDBTransferRequest, JDBTransferResponse> service,
+        [FromServices] IGetService<JDBTransferQuery, JDBTransferResult> service,
          JDBTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new JDBTransferRequest(
+        var result = await service.GetAsync(new JDBTransferQuery(
                 ApiUrl: source.ApiUrl,
                 Domain: source.Domain,
                 AesKey: source.AesKey,

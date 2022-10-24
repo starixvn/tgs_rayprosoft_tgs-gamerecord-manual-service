@@ -4,7 +4,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.PragmaticPlayTransfer;
 
-internal class PragmaticPlayTransferGetService : IGetService<PragmaticPlayTransferRequest, PragmaticPlayTransferResponse>
+internal class PragmaticPlayTransferGetService : IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,8 +14,8 @@ internal class PragmaticPlayTransferGetService : IGetService<PragmaticPlayTransf
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<PragmaticPlayTransferResponse> GetAsync(
-        PragmaticPlayTransferRequest query,
+    public async ValueTask<PragmaticPlayTransferResult> GetAsync(
+        PragmaticPlayTransferQuery query,
         CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
@@ -23,6 +23,6 @@ internal class PragmaticPlayTransferGetService : IGetService<PragmaticPlayTransf
             JsonSerializer.SerializeToUtf8Bytes(query),
             cancellationToken).ConfigureAwait(false);
 
-        return JsonSerializer.Deserialize<PragmaticPlayTransferResponse>(readOnlyMemory.Span)!;
+        return JsonSerializer.Deserialize<PragmaticPlayTransferResult>(readOnlyMemory.Span)!;
     }
 }

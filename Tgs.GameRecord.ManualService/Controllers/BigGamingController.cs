@@ -13,7 +13,7 @@ public class BigGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -27,14 +27,14 @@ public class BigGamingController : ControllerBase
     /// </remarks>
     [HttpPost("Fishing")]
     public async ValueTask<BigGamingFishingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<BigGamingFishingRequest, BigGamingFishingResponse> service,
-         BigGamingFishingQueryViewModel model)
+        [FromServices] IGetService<BigGamingFishingQuery, BigGamingFishingResult> service,
+         BigGamingFishingQueryViewModel source)
     {
-        var result = await service.GetAsync(new BigGamingFishingRequest()
+        var result = await service.GetAsync(new BigGamingFishingQuery()
         {
-            CurrencyCode = model.CurrencyCode,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            CurrencyCode = source.CurrencyCode,
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new BigGamingFishingResultViewModel()

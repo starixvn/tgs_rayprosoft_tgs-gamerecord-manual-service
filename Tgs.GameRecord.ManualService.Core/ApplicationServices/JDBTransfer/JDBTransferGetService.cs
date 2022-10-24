@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.JDBTransfer;
 
-internal class JDBTransferGetService : IGetService<JDBTransferRequest, JDBTransferResponse>
+internal class JDBTransferGetService : IGetService<JDBTransferQuery, JDBTransferResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class JDBTransferGetService : IGetService<JDBTransferRequest, JDBTransf
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<JDBTransferResponse> GetAsync(JDBTransferRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<JDBTransferResult> GetAsync(JDBTransferQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.jdbtf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<JDBTransferResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<JDBTransferResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

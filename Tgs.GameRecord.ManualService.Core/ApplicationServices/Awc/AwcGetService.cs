@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Awc;
 
-internal class AwcGetService : IGetService<AwcRequest, AwcResponse>
+internal class AwcGetService : IGetService<AwcQuery, AwcResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class AwcGetService : IGetService<AwcRequest, AwcResponse>
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<AwcResponse> GetAsync(AwcRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<AwcResult> GetAsync(AwcQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.awc",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<AwcResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<AwcResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

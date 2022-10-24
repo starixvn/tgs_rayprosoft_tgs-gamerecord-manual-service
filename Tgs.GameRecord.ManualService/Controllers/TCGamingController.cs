@@ -13,7 +13,7 @@ public class TCGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -29,16 +29,16 @@ public class TCGamingController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<TCGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<TCGamingRequest, TCGamingResponse> service,
-         TCGamingQueryViewModel model)
+        [FromServices] IGetService<TCGamingQuery, TCGamingResult> service,
+         TCGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new TCGamingRequest()
+        var result = await service.GetAsync(new TCGamingQuery()
         {
-            IsDesignation = model.IsDesignation,
-            SubGP = model.SubGP,
-            MerchantCode = model.MerchantCode,
-            LastGameRecordDirectory = model.LastGameRecordDirectory,
-            LastGameRecordFile = model.LastGameRecordFile
+            IsDesignation = source.IsDesignation,
+            SubGP = source.SubGP,
+            MerchantCode = source.MerchantCode,
+            LastGameRecordDirectory = source.LastGameRecordDirectory,
+            LastGameRecordFile = source.LastGameRecordFile
         }).ConfigureAwait(false);
 
         return new TCGamingResultViewModel()

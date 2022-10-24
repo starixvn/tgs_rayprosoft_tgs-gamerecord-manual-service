@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.LEGaming;
 
-internal class LEGamingGetService : IGetService<LEGamingRequest, LEGamingResponse>
+internal class LEGamingGetService : IGetService<LEGamingQuery, LEGamingResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class LEGamingGetService : IGetService<LEGamingRequest, LEGamingRespons
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<LEGamingResponse> GetAsync(LEGamingRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<LEGamingResult> GetAsync(LEGamingQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.ly",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<LEGamingResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<LEGamingResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

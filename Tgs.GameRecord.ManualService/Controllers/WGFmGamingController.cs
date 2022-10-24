@@ -13,7 +13,7 @@ public class WGFmGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -30,16 +30,16 @@ public class WGFmGamingController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<WGFmGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<WGFmGamingRequest, WGFmGamingResponse> service,
-         WGFmGamingQueryViewModel model)
+        [FromServices] IGetService<WGFmGamingQuery, WGFmGamingResult> service,
+         WGFmGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new WGFmGamingRequest(
-            model.ApiUrl,
-            model.PartnerCode,
-            model.PartnerKey,
-            model.PartnerIV,
-            model.StartTime,
-            model.EndTime)).ConfigureAwait(false);
+        var result = await service.GetAsync(new WGFmGamingQuery(
+            source.ApiUrl,
+            source.PartnerCode,
+            source.PartnerKey,
+            source.PartnerIV,
+            source.StartTime,
+            source.EndTime)).ConfigureAwait(false);
 
         return new WGFmGamingResultViewModel()
         {

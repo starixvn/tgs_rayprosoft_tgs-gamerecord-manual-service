@@ -13,7 +13,7 @@ public class SkywindTransferController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -30,16 +30,16 @@ public class SkywindTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<SkywindTransferResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<SkywindTransferRequest, SkywindTransferResponse> service,
-        SkywindTransferQueryViewModel model)
+        [FromServices] IGetService<SkywindTransferQuery, SkywindTransferResult> service,
+        SkywindTransferQueryViewModel source)
     {
-        var request = new SkywindTransferRequest(
-            model.ApiUrl,
-            model.SecretKey,
-            model.Username,
-            model.Password,
-            model.StartTime,
-            model.EndTime);
+        var request = new SkywindTransferQuery(
+            source.ApiUrl,
+            source.SecretKey,
+            source.Username,
+            source.Password,
+            source.StartTime,
+            source.EndTime);
         var result = await service.GetAsync(
             request,
             HttpContext.RequestAborted

@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Joker;
 
-internal class JokerGetService : IGetService<JokerRequest, JokerResponse>
+internal class JokerGetService : IGetService<JokerQuery, JokerResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class JokerGetService : IGetService<JokerRequest, JokerResponse>
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<JokerResponse> GetAsync(JokerRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<JokerResult> GetAsync(JokerQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.joker",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<JokerResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<JokerResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

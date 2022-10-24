@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.SBOTransfer;
 
-internal class SBOTransferGetService : IGetService<SBOTransferRequest, SBOTransferResponse>
+internal class SBOTransferGetService : IGetService<SBOTransferQuery, SBOTransferResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class SBOTransferGetService : IGetService<SBOTransferRequest, SBOTransf
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<SBOTransferResponse> GetAsync(SBOTransferRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<SBOTransferResult> GetAsync(SBOTransferQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.sbotf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<SBOTransferResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<SBOTransferResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

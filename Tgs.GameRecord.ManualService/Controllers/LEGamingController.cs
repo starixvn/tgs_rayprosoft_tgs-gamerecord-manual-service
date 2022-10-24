@@ -13,7 +13,7 @@ public class LEGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -28,15 +28,15 @@ public class LEGamingController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<LEGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<LEGamingRequest, LEGamingResponse> service,
-         LEGamingQueryViewModel model)
+        [FromServices] IGetService<LEGamingQuery, LEGamingResult> service,
+         LEGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new LEGamingRequest()
+        var result = await service.GetAsync(new LEGamingQuery()
         {
-            BrandCode = model.BrandCode,
-            CurrencyCode = model.CurrencyCode,
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            BrandCode = source.BrandCode,
+            CurrencyCode = source.CurrencyCode,
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new LEGamingResultViewModel()

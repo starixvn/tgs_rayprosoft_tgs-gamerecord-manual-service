@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.EvolutionTransfer;
 
-internal class EvolutionTransferGetService : IGetService<EvolutionTransferRequest, EvolutionTransferResponse>
+internal class EvolutionTransferGetService : IGetService<EvolutionTransferQuery, EvolutionTransferResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class EvolutionTransferGetService : IGetService<EvolutionTransferReques
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<EvolutionTransferResponse> GetAsync(EvolutionTransferRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<EvolutionTransferResult> GetAsync(EvolutionTransferQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.evotf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<EvolutionTransferResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<EvolutionTransferResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

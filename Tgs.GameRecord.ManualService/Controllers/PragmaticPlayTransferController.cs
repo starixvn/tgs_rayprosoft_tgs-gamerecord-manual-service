@@ -13,7 +13,7 @@ public class PragmaticPlayTransferController : ControllerBase
     /// Games the record by fishing asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -26,13 +26,13 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("Fishing")]
     public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByFishingAsync(
-        [FromServices] IGetService<PragmaticPlayTransferRequest, PragmaticPlayTransferResponse> service,
-        PragmaticPlayTransferQueryViewModel model)
+        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
+        PragmaticPlayTransferQueryViewModel source)
     {
-        var request = new PragmaticPlayTransferRequest(
+        var request = new PragmaticPlayTransferQuery(
             GameDataType: PragmaticPlayTransferDataType.Fishing,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime);
+            StartTime: source.StartTime,
+            EndTime: source.EndTime);
 
         var result = await service.GetAsync(query: request).ConfigureAwait(false);
 
@@ -62,10 +62,10 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("LiveDealer")]
     public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByLiveDealerAsync(
-        [FromServices] IGetService<PragmaticPlayTransferRequest, PragmaticPlayTransferResponse> service,
+        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
         PragmaticPlayTransferQueryViewModel model)
     {
-        var request = new PragmaticPlayTransferRequest(
+        var request = new PragmaticPlayTransferQuery(
             GameDataType: PragmaticPlayTransferDataType.LiveDealer,
             StartTime: model.StartTime,
             EndTime: model.EndTime);
@@ -98,10 +98,10 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("RNG")]
     public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByRNGAsync(
-        [FromServices] IGetService<PragmaticPlayTransferRequest, PragmaticPlayTransferResponse> service,
+        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
         PragmaticPlayTransferQueryViewModel model)
     {
-        var request = new PragmaticPlayTransferRequest(
+        var request = new PragmaticPlayTransferQuery(
             GameDataType: PragmaticPlayTransferDataType.RNG,
             StartTime: model.StartTime,
             EndTime: model.EndTime);
@@ -134,10 +134,10 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("VirtualSports")]
     public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByVirtualSportsAsync(
-        [FromServices] IGetService<PragmaticPlayTransferRequest, PragmaticPlayTransferResponse> service,
+        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
         PragmaticPlayTransferQueryViewModel model)
     {
-        var request = new PragmaticPlayTransferRequest(
+        var request = new PragmaticPlayTransferQuery(
             GameDataType: PragmaticPlayTransferDataType.VirtualSports,
             StartTime: model.StartTime,
             EndTime: model.EndTime);

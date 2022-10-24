@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.WMCasinoTransfer;
 
-internal class WMCasinoTransferGetService : IGetService<WMCasinoTransferRequest, WMCasinoTransferResponse>
+internal class WMCasinoTransferGetService : IGetService<WMCasinoTransferQuery, WMCasinoTransferResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class WMCasinoTransferGetService : IGetService<WMCasinoTransferRequest,
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<WMCasinoTransferResponse> GetAsync(WMCasinoTransferRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<WMCasinoTransferResult> GetAsync(WMCasinoTransferQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.wmtf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<WMCasinoTransferResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<WMCasinoTransferResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

@@ -13,7 +13,7 @@ public class WMCasinoTransferController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -29,15 +29,15 @@ public class WMCasinoTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<WMCasinoTransferResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<WMCasinoTransferRequest, WMCasinoTransferResponse> service,
-         WMCasinoTransferQueryViewModel model)
+        [FromServices] IGetService<WMCasinoTransferQuery, WMCasinoTransferResult> service,
+         WMCasinoTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new WMCasinoTransferRequest(
-            GameApiUrl: model.ApiUrl,
-            GameProviderVendorId: model.GameProviderVendorId,
-            GameProviderSignature: model.GameProviderSignature,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime)).ConfigureAwait(false);
+        var result = await service.GetAsync(new WMCasinoTransferQuery(
+            GameApiUrl: source.ApiUrl,
+            GameProviderVendorId: source.GameProviderVendorId,
+            GameProviderSignature: source.GameProviderSignature,
+            StartTime: source.StartTime,
+            EndTime: source.EndTime)).ConfigureAwait(false);
 
         return new WMCasinoTransferResultViewModel()
         {

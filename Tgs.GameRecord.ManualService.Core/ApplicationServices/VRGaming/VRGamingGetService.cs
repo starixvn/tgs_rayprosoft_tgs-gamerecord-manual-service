@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.VRGaming;
 
-internal class VRGamingGetService : IGetService<VRGamingRequest, VRGamingResponse>
+internal class VRGamingGetService : IGetService<VRGamingQuery, VRGamingResult>
 {
     private readonly IMessageSender _messageSender;
 
@@ -14,12 +14,12 @@ internal class VRGamingGetService : IGetService<VRGamingRequest, VRGamingRespons
         _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
     }
 
-    public async ValueTask<VRGamingResponse> GetAsync(VRGamingRequest query, CancellationToken cancellationToken = default)
+    public async ValueTask<VRGamingResult> GetAsync(VRGamingQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
             "gp.gamerecord.manual.vr",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<VRGamingResponse>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
+        return JsonSerializer.Deserialize<VRGamingResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }

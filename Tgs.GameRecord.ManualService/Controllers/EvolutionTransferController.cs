@@ -13,7 +13,7 @@ public class EvolutionTransferController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -29,15 +29,15 @@ public class EvolutionTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<EvolutionTransferResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<EvolutionTransferRequest, EvolutionTransferResponse> service,
-         EvolutionTransferQueryViewModel model)
+        [FromServices] IGetService<EvolutionTransferQuery, EvolutionTransferResult> service,
+         EvolutionTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new EvolutionTransferRequest(
-            GameApiUrl: model.ApiUrl,
-            CasinoId: model.CasinoId,
-            GameHistoryApiToken: model.GameHistoryApiToken,
-            StartDate: model.StartTime,
-            EndDate: model.EndTime)).ConfigureAwait(false);
+        var result = await service.GetAsync(new EvolutionTransferQuery(
+            GameApiUrl: source.ApiUrl,
+            CasinoId: source.CasinoId,
+            GameHistoryApiToken: source.GameHistoryApiToken,
+            StartDate: source.StartTime,
+            EndDate: source.EndTime)).ConfigureAwait(false);
 
         return new EvolutionTransferResultViewModel()
         {

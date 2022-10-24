@@ -13,7 +13,7 @@ public class WGViaGamingController : ControllerBase
     /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -26,13 +26,13 @@ public class WGViaGamingController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<WGViaGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<WGViaGamingRequest, WGViaGamingResponse> service,
-         WGViaGamingQueryViewModel model)
+        [FromServices] IGetService<WGViaGamingQuery, WGViaGamingResult> service,
+         WGViaGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new WGViaGamingRequest()
+        var result = await service.GetAsync(new WGViaGamingQuery()
         {
-            StartTime = model.StartTime,
-            EndTime = model.EndTime
+            StartTime = source.StartTime,
+            EndTime = source.EndTime
         }).ConfigureAwait(false);
 
         return new WGViaGamingResultViewModel()

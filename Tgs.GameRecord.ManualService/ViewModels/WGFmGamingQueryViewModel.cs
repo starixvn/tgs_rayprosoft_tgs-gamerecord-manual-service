@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tgs.GameRecord.ManualService.Attributes;
 
 namespace Tgs.GameRecord.ManualService.ViewModels;
 
