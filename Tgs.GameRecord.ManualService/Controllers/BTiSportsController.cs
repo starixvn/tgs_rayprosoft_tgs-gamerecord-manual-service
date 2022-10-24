@@ -27,7 +27,7 @@ public class BTiSportsController : ControllerBase
     ///             "agentUserName": "PegaGaming_GPIRMB",
     ///             "agentPassword": "IM60Ho7Y4B9C",
     ///             "startTime": "2022-10-24T00:00:00+08:00",
-    ///             "endTime": "2022-10-25T00:00:00+08:00
+    ///             "endTime": "2022-10-25T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
