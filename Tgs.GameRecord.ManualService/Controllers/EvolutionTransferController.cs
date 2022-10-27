@@ -5,7 +5,7 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
-[Route("evotfo")]
+[Route("evotf")]
 [ApiController]
 public class EvolutionTransferController : ControllerBase
 {
