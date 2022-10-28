@@ -21,7 +21,7 @@ public class HabaneroTransferController : ControllerBase
     ///     Post
     ///
     ///         {
-    ///             "apiUrl": "https://asia-east2-bq-data-api.cloudfunctions.net/",
+    ///             "apiUrl": "https://ws-test.insvr.com/",
     ///             "brandId": "b97e1834-d142-ed11-a27c-0050f23876f7",
     ///             "apiKey": "0F0B9E83-80FF-4DC7-8C8C-DF48B55DAE45",
     ///             "startTime": "2022-10-27T06:31:00+08:00",

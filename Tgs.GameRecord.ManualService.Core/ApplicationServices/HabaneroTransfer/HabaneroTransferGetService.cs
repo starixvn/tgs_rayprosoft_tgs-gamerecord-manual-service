@@ -17,7 +17,7 @@ internal class HabaneroTransferGetService : IGetService<HabaneroTransferQuery, H
     public async ValueTask<HabaneroTransferResult> GetAsync(HabaneroTransferQuery query, CancellationToken cancellationToken = default)
     {
         var readOnlyMemory = await _messageSender.RequestAsync(
-            "gp.gamerecord.manual.habanero",
+            "gp.gamerecord.manual.habatf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);
         return JsonSerializer.Deserialize<HabaneroTransferResult>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
