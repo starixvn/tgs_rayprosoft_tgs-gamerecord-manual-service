@@ -12,7 +12,7 @@ namespace Tgs.GameRecord.ManualService.Controllers;
 public class SabaTransferController : ControllerBase
 {
     /// <summary>
-    /// Games the record by sports book asynchronous.
+    /// Games the record asynchronous.
     /// </summary>
     /// <param name="service">The service.</param>
     /// <param name="source">The source.</param>
@@ -27,7 +27,7 @@ public class SabaTransferController : ControllerBase
     ///             "operatorId": "tg",
     ///             "vendorId": "um5vspnzkx",
     ///             "startTime": "2022-10-27T15:50:00+08:00",
-    ///             "endTime": "2022-10-27T15:55:00+08:00
+    ///             "endTime": "2022-10-27T15:55:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
