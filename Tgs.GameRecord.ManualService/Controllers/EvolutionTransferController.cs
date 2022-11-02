@@ -28,7 +28,7 @@ public class EvolutionTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<EvolutionTransferResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<EvolutionTransferQuery, EvolutionTransferResult> service,
          EvolutionTransferQueryViewModel source)
     {
@@ -39,7 +39,7 @@ public class EvolutionTransferController : ControllerBase
             StartDate: source.StartTime,
             EndDate: source.EndTime)).ConfigureAwait(false);
 
-        return new EvolutionTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

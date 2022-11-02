@@ -29,7 +29,7 @@ public class AwcController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<AwcResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<AwcQuery, AwcResult> service,
          AwcQueryViewModel source)
     {
@@ -41,7 +41,7 @@ public class AwcController : ControllerBase
             StartTime: source.StartTime,
             EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new AwcResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

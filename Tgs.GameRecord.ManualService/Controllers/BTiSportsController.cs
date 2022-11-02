@@ -31,7 +31,7 @@ public class BTiSportsController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<BTiSportsResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<BTiSportsQuery, BTiSportsResult> service,
          BTiSportsQueryViewModel source)
     {
@@ -44,7 +44,7 @@ public class BTiSportsController : ControllerBase
             StartTime: source.StartTime,
             EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new BTiSportsResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success
         };

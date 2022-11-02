@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.JiliTransfer;
 using Tgs.GameRecord.ManualService.Core.ApplicationServices.SabaTransfer;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.SBOTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.ServiceUtility;
 

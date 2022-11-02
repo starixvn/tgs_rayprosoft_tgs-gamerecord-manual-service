@@ -30,7 +30,7 @@ public class JDBTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<JDBTransferResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<JDBTransferQuery, JDBTransferResult> service,
          JDBTransferQueryViewModel source)
     {
@@ -43,7 +43,7 @@ public class JDBTransferController : ControllerBase
                 StartTime: source.StartTime,
                 EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new JDBTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

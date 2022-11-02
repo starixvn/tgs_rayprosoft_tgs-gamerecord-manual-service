@@ -29,7 +29,7 @@ public class WGFmGamingController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<WGFmGamingResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<WGFmGamingQuery, WGFmGamingResult> service,
          WGFmGamingQueryViewModel source)
     {
@@ -41,7 +41,7 @@ public class WGFmGamingController : ControllerBase
             source.StartTime,
             source.EndTime)).ConfigureAwait(false);
 
-        return new WGFmGamingResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success
         };

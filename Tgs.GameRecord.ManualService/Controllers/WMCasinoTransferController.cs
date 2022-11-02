@@ -28,7 +28,7 @@ public class WMCasinoTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<WMCasinoTransferResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<WMCasinoTransferQuery, WMCasinoTransferResult> service,
          WMCasinoTransferQueryViewModel source)
     {
@@ -39,7 +39,7 @@ public class WMCasinoTransferController : ControllerBase
             StartTime: source.StartTime,
             EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new WMCasinoTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

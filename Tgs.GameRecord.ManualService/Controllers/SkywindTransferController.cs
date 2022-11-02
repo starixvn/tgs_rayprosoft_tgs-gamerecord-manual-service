@@ -29,7 +29,7 @@ public class SkywindTransferController : ControllerBase
     ///          }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<SkywindTransferResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<SkywindTransferQuery, SkywindTransferResult> service,
         SkywindTransferQueryViewModel source)
     {
@@ -45,7 +45,7 @@ public class SkywindTransferController : ControllerBase
             HttpContext.RequestAborted
             ).ConfigureAwait(false);
 
-        return new SkywindTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

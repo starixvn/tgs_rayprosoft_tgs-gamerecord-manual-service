@@ -28,7 +28,7 @@ public class JiliTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<JiliTransferResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<JiliTransferQuery, JiliTransferResult> service,
          JiliTransferQueryViewModel source)
     {
@@ -39,7 +39,7 @@ public class JiliTransferController : ControllerBase
             StartTime: source.StartTime,
             EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new JiliTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

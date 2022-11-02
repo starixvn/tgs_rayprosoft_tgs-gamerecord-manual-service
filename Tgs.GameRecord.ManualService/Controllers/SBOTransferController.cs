@@ -29,7 +29,7 @@ public class SBOTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost("sportsbook")]
-    public async ValueTask<SBOTransferResultViewModel> GameRecordBySportsBookAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordBySportsBookAsync(
         [FromServices] IGetService<SBOTransferQuery, SBOTransferResult> service,
          SBOTransferQueryViewModel source)
     {
@@ -41,7 +41,7 @@ public class SBOTransferController : ControllerBase
                 StartTime: source.StartTime,
                 EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new SBOTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };
@@ -67,7 +67,7 @@ public class SBOTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost("virtualsports")]
-    public async ValueTask<SBOTransferResultViewModel> GameRecordByVirtualSportsAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordByVirtualSportsAsync(
         [FromServices] IGetService<SBOTransferQuery, SBOTransferResult> service,
          SBOTransferQueryViewModel source)
     {
@@ -79,7 +79,7 @@ public class SBOTransferController : ControllerBase
                 StartTime: source.StartTime,
                 EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new SBOTransferResultViewModel()
+        return new GameRecorResultViewModel()
         {
             Success = result.Success,
         };

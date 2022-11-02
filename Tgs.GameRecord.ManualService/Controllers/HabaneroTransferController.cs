@@ -29,7 +29,7 @@ public class HabaneroTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<HabaneroTransferResultViewModel> GameRecordAsync(
+    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
         [FromServices] IGetService<HabaneroTransferQuery, HabaneroTransferResult> service,
          HabaneroTransferQueryViewModel source)
     {
@@ -40,7 +40,7 @@ public class HabaneroTransferController : ControllerBase
             StartTime: source.StartTime,
             EndTime: source.EndTime)).ConfigureAwait(false);
 
-        return new HabaneroTransferResultViewModel
+        return new GameRecorResultViewModel
         {
             Success = result.Success
         };
