@@ -8,7 +8,7 @@ public record SM01QueryViewModel
     [Required]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
-    public string GameProviderMerchanttId { get; init; } = default!;
+    public string GameProviderMerchantId { get; init; } = default!;
     [Required]
     public string GameProviderMerchantKey { get; init; } = default!;
     [Required]

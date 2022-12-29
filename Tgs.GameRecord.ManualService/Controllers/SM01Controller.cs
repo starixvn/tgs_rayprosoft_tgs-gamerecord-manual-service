@@ -34,7 +34,7 @@ public class SM01Controller : ControllerBase
     {
         var result = await service.GetAsync(new SM01Query(
             GameApiUrl: source.ApiUrl,
-            GameMerchanttId: source.GameProviderMerchanttId,
+            GameMerchantId: source.GameProviderMerchantId,
             GameMerchantKey: source.GameProviderMerchantKey,
             StartTime: source.StartTime,
             EndTime: source.EndTime)).ConfigureAwait(false);
