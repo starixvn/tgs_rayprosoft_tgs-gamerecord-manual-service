@@ -8,9 +8,9 @@ public record SM01QueryViewModel
     [Required]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
-    public string GameProviderMerchantId { get; init; } = default!;
+    public string MerchantId { get; init; } = default!;
     [Required]
-    public string GameProviderMerchantKey { get; init; } = default!;
+    public string MerchantKey { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
     public DateTime StartTime { get; init; }

@@ -33,11 +33,12 @@ public class SM01Controller : ControllerBase
          SM01QueryViewModel source)
     {
         var result = await service.GetAsync(new SM01Query(
-            GameApiUrl: source.ApiUrl,
-            GameMerchantId: source.GameProviderMerchantId,
-            GameMerchantKey: source.GameProviderMerchantKey,
+            ApiUrl: source.ApiUrl,
+            MerchantId: source.MerchantId,
+            MerchantKey: source.MerchantKey,
             StartTime: source.StartTime,
-            EndTime: source.EndTime)).ConfigureAwait(false);
+            EndTime: source.EndTime),
+            HttpContext.RequestAborted).ConfigureAwait(false);
 
         return new GameRecorResultViewModel()
         {

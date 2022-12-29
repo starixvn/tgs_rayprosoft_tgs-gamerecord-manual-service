@@ -1,8 +1,8 @@
 ﻿namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.SM01;
 
 public record SM01Query(
-    Uri GameApiUrl,
-    string GameMerchantId,
-    string GameMerchantKey,
+    Uri ApiUrl,
+    string MerchantId,
+    string MerchantKey,
     DateTimeOffset StartTime,
     DateTimeOffset EndTime);
