@@ -21,8 +21,8 @@ public class SM01Controller : ControllerBase
     ///     Post
     ///         {
     ///             "apiUrl":"https://cn.ucfclive.com/",
-    ///             "gameProviderMerchantId":"SQjCxm2cX5bahBta",
-    ///             "gameProviderMerchantKey":"XGKGkcmYNnfex8AecKzCEbD4GMExA2cb",
+    ///             "merchantId":"SQjCxm2cX5bahBta",
+    ///             "merchantKey":"XGKGkcmYNnfex8AecKzCEbD4GMExA2cb",
     ///             "startTime": "2022-12-28T17:00:00+08:00",
     ///             "endTime": "2022-12-28T17:30:00+08:00"
     ///         }
