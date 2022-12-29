@@ -20,11 +20,11 @@ public class SM01Controller : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "apiUrl":"https://uat-wb-api.jlfafafa2.com/",
-    ///             "gameProviderAgentId":"PG_GPI_CNY",
-    ///             "gameProviderAgentKey":"82af5971ae233eaa003b774be4079e7902ea7ff4",
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
+    ///             "apiUrl":"https://cn.ucfclive.com/",
+    ///             "gameProviderMerchantId":"SQjCxm2cX5bahBta",
+    ///             "gameProviderMerchantKey":"XGKGkcmYNnfex8AecKzCEbD4GMExA2cb",
+    ///             "startTime": "2022-12-28T17:00:00+08:00",
+    ///             "endTime": "2022-12-28T17:30:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
