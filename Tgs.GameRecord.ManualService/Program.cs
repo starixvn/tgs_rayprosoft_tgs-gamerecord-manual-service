@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Instrumentation.AspNetCore;
@@ -79,7 +79,8 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.sbotf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.bti")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.habatf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sabatf");
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sabatf")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sm01");
 
 builder.Services
      .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
