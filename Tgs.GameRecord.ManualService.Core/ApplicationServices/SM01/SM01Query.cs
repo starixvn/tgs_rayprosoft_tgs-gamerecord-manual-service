@@ -2,7 +2,7 @@
 
 public record SM01Query(
     Uri GameApiUrl,
-    string GameMerchanttId,
+    string GameMerchantId,
     string GameMerchantKey,
     DateTimeOffset StartTime,
     DateTimeOffset EndTime);
