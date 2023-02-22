@@ -4,6 +4,7 @@ metadata:
   name: configmap-{{ include "game-gamerecord-manual-service.name" . }}
   namespace: {{ .Values.namespace }}
 data:
+  appsettings.json: |
     {
       "Logging": {
         "LogLevel": {
