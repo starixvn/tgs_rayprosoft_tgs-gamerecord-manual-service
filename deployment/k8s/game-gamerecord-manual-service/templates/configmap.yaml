@@ -4,8 +4,15 @@ metadata:
   name: configmap-{{ include "game-gamerecord-manual-service.name" . }}
   namespace: {{ .Values.namespace }}
 data:
-  appsettings.json: |
     {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Warning"
+        }
+      },
+      "GameRecord": {
+        "GameRoundsScheduleClientBaseUrl": "http://game-gamerounds-schedule:9090/"
+      }
     }
   monitor.settings.json: |
     {

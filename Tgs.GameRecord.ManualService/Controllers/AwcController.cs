@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.Awc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +12,7 @@ public class AwcController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="clinet">The clinet.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,21 +29,18 @@ public class AwcController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<AwcQuery, AwcResult> service,
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient clinet,
          AwcQueryViewModel source)
-    {
-        var result = await service.GetAsync(new AwcQuery(
-            GameRecordApiUrl: source.GameRecordApiUrl,
-            GameProviderCode: source.GameProviderCode,
-            GameProviderAgentId: source.GameProviderAgentId,
-            GameProviderCert: source.GameProviderCert,
-            StartTime: source.StartTime,
-            EndTime: source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
-        {
-            Success = result.Success,
-        };
-    }
+        => clinet.AWC_ScheduleFormQueuedAsync(
+            gameProviderCode: source.GameProviderCode,
+            name: source.GameProviderAgentId,
+            subject: "gp.gamerecord.scheduleform.awc.queued",
+            source: ScheduleFormSource.Manual,
+            apiUrl: source.GameRecordApiUrl,
+            agentId: source.GameProviderAgentId,
+            cert: source.GameProviderCert,
+            startTime: source.StartTime,
+            endTime: source.EndTime,
+            cancellationToken: HttpContext.RequestAborted);
 }

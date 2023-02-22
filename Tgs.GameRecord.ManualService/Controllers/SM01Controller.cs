@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.Core.ApplicationServices.SM01;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.ServiceUtility;

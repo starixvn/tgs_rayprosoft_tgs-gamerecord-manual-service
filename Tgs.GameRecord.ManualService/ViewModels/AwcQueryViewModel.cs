@@ -18,6 +18,6 @@ public record AwcQueryViewModel
     public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 3600)]
+    [DateTimeRangeMinutes("StartTime", 60)]
     public DateTime EndTime { get; init; }
 }
