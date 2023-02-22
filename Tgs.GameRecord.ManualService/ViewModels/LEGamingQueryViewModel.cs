@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tgs.GameRecord.ManualService.Attributes;
 
 namespace Tgs.GameRecord.ManualService.ViewModels;
 
@@ -15,5 +16,6 @@ public record LEGamingQueryViewModel
     public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
+    [DateTimeRangeMinutes("StartTime", 30)]
     public DateTime EndTime { get; init; }
 }

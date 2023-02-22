@@ -18,9 +18,9 @@ builder.Logging
         options.ParseStateValues = true;
         _ = options.AddFluentdForwardExporter(fluentOptions =>
         {
-            var nodeIp = builder.Configuration.GetValue<string>("NODE_IP");
+            var nodeIp = builder.Configuration.GetValue<string>("NODE_IP")!;
             fluentOptions.Host = nodeIp;
-            fluentOptions.Tag = builder.Configuration.GetValue<string>("OTEL_SERVICE_NAME");
+            fluentOptions.Tag = builder.Configuration.GetValue<string>("OTEL_SERVICE_NAME")!;
             fluentOptions.UseMessagePack();
         });
     });
@@ -45,7 +45,12 @@ builder.Services.AddSwaggerGen(c =>
     }
 });
 
-builder.Services.AddManualServiceCore();
+builder.Services.AddManualServiceCore(
+  (options, sp) =>
+  {
+      var configuration = sp.GetRequiredService<IConfiguration>();
+      options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameRoundsScheduleClinetBaseUrl")!;
+  });
 
 builder.Services
     .AddMessageQueue()
@@ -55,7 +60,7 @@ builder.Services
          .ConfigQueueOptions((options, sp) =>
          {
              var configuration = sp.GetRequiredService<IConfiguration>();
-             options.Url = configuration.GetConnectionString("Nats");
+             options.Url = configuration.GetConnectionString("Nats")!;
          });
      })
     .ClearAllExchanges()
@@ -70,7 +75,6 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.dg")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.joker")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.pptf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.awc")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.jilitf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.wmtf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.evotf")
@@ -84,39 +88,43 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.tftf");
 
 builder.Services
-     .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
+    .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
         sp => new ConfigureNamedOptions<OtlpExporterOptions>(
-            Microsoft.Extensions.Options.Options.DefaultName,
+            Options.DefaultName,
             exporterOptions =>
             {
                 var config = sp.GetRequiredService<IConfiguration>();
-                var nodeIp = config.GetValue<string>("NODE_IP");
+                var nodeIp = config.GetValue<string>("NODE_IP")!;
 
                 if (!string.IsNullOrWhiteSpace(nodeIp))
                     exporterOptions.Endpoint = new Uri($"http://{nodeIp}:4317");
 
                 config.GetSection("Opentelemetry:Tracing").Bind(exporterOptions);
             }))
-    .AddOpenTelemetryTracing(traceBuilder => traceBuilder
-        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddEnvironmentVariableDetector())
+    .AddOpenTelemetry()
+    .ConfigureResource(resource => resource
+        .AddEnvironmentVariableDetector())
+    .WithTracing(tracerBuilder => tracerBuilder
         .AddSource("Tgs.*")
         .AddSource("TGS.*")
-        .AddGrpcClientInstrumentation()
         .AddAspNetCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
         .AddHttpClientInstrumentation()
         .AddProfileViewExporter()
         .AddOtlpExporter())
+    .Services
     .AddProfileViewer()
     .Configure<AspNetCoreInstrumentationOptions>(options =>
     {
         options.Filter = httpContext =>
         {
             return !httpContext.Request.Path.HasValue
-                || !httpContext.Request.Path.StartsWithSegments("/swagger")
-                && !httpContext.Request.Path.StartsWithSegments("/healthz")
-                && !httpContext.Request.Path.StartsWithSegments("/profiler/")
-                && !new[] { "html", "ico", "png", "jpg" }.Any(
-                    ext => httpContext.Request.Path.Value.EndsWith($".{ext}"));
+                   || !httpContext.Request.Path.StartsWithSegments("/swagger")
+                   && !httpContext.Request.Path.StartsWithSegments("/healthz")
+                   && !httpContext.Request.Path.StartsWithSegments("/profiler/")
+                   && !httpContext.Request.Path.StartsWithSegments("/metrics")
+                   && !new[] { "html", "ico", "png", "jpg" }.Any(
+                       ext => httpContext.Request.Path.Value.EndsWith($".{ext}"));
         };
     });
 
