@@ -29,10 +29,10 @@ public class AwcController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public ValueTask GameRecordAsync(
+    public async ValueTask GameRecordAsync(
         [FromServices] IGameRoundsScheduleClient clinet,
          AwcQueryViewModel source)
-        => clinet.AWC_ScheduleFormQueuedAsync(
+        => await clinet.AWC_ScheduleFormQueuedAsync(
             gameProviderCode: source.GameProviderCode,
             name: source.GameProviderAgentId,
             subject: "gp.gamerecord.scheduleform.awc.queued",
@@ -42,5 +42,6 @@ public class AwcController : ControllerBase
             cert: source.GameProviderCert,
             startTime: source.StartTime,
             endTime: source.EndTime,
-            cancellationToken: HttpContext.RequestAborted);
+            cancellationToken: HttpContext.RequestAborted)
+        .ConfigureAwait(false);
 }
