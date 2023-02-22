@@ -1,4 +1,5 @@
 ﻿#nullable disable
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgs.GameRecord.ManualService.Attributes;

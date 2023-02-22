@@ -30,7 +30,7 @@ public class AwcController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClinet clinet,
+        [FromServices] IGameRoundsScheduleClient clinet,
          AwcQueryViewModel source)
         => clinet.AWC_ScheduleFormQueuedAsync(
             gameProviderCode: source.GameProviderCode,

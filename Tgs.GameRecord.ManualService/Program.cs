@@ -49,7 +49,7 @@ builder.Services.AddManualServiceCore(
   (options, sp) =>
   {
       var configuration = sp.GetRequiredService<IConfiguration>();
-      options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameRoundsScheduleClinetBaseUrl")!;
+      options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameRoundsScheduleClientBaseUrl")!;
   });
 
 builder.Services

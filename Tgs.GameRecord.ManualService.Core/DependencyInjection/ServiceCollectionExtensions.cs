@@ -7,10 +7,10 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddManualServiceCore(
         this IServiceCollection services,
-        Action<GameRoundsScheduleClinetOptions, IServiceProvider> gameRoundsScheduleClinetOptions)
+        Action<GameRoundsScheduleClientOptions, IServiceProvider> gameRoundsScheduleClientOptions)
         => services
         .RegisterAllServiceUtilityTypes(
             Assembly.GetExecutingAssembly(),
             ServiceLifetime.Transient)
-        .AddGameRoundsScheduleClinet(gameRoundsScheduleClinetOptions);
+        .AddGameRoundsScheduleClient(gameRoundsScheduleClientOptions);
 }

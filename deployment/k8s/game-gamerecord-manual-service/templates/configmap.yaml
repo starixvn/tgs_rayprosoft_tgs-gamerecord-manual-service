@@ -11,7 +11,7 @@ data:
         }
       },
       "GameRecord": {
-        "GameRoundsScheduleClinetBaseUrl": "http://game-gamerounds-schedule:9090/"
+        "GameRoundsScheduleClientBaseUrl": "http://game-gamerounds-schedule:9090/"
       }
     }
   monitor.settings.json: |
