@@ -32,16 +32,21 @@ public class AwcController : ControllerBase
     public ValueTask GameRecordAsync(
         [FromServices] IGameRoundsScheduleClient clinet,
          AwcQueryViewModel source)
-        => clinet.AWC_ScheduleFormQueuedAsync(
-            gameProviderCode: source.GameProviderCode,
-            name: source.GameProviderAgentId,
-            subject: "gp.gamerecord.scheduleform.awc.queued",
-            source: ScheduleFormSource.Manual,
-            apiUrl: source.GameRecordApiUrl,
-            agentId: source.GameProviderAgentId,
-            cert: source.GameProviderCert,
-            startTime: source.StartTime,
-            endTime: source.EndTime,
-            cancellationToken: HttpContext.RequestAborted);
+    {
+        _ = clinet.AWC_ScheduleFormQueuedAsync(
+             gameProviderCode: source.GameProviderCode,
+             name: source.GameProviderAgentId,
+             subject: "gp.gamerecord.scheduleform.awc.queued",
+             source: ScheduleFormSource.Manual,
+             apiUrl: source.GameRecordApiUrl,
+             agentId: source.GameProviderAgentId,
+             cert: source.GameProviderCert,
+             startTime: source.StartTime,
+             endTime: source.EndTime,
+             cancellationToken: HttpContext.RequestAborted)
+             .AsTask();
+
+        return ValueTask.CompletedTask;
+    }
 
 }
