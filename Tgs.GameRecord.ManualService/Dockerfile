@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG BuildConfiguration=Release
 WORKDIR /src
-COPY ["NuGet.config", "."]
+COPY ["nuget.config", "."]
 COPY ["Tgs.GameRecord.ManualService/Tgs.GameRecord.ManualService.csproj", "Tgs.GameRecord.ManualService/"]
 COPY ["Tgs.GameRecord.ManualService.Core/Tgs.GameRecord.ManualService.Core.csproj", "Tgs.GameRecord.ManualService.Core/"]
 RUN dotnet restore "Tgs.GameRecord.ManualService/Tgs.GameRecord.ManualService.csproj"
