@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.EvolutionTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +12,7 @@ public class EvolutionTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The clinet.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -28,20 +28,18 @@ public class EvolutionTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<EvolutionTransferQuery, EvolutionTransferResult> service,
-         EvolutionTransferQueryViewModel source)
-    {
-        var result = await service.GetAsync(new EvolutionTransferQuery(
-            GameApiUrl: source.ApiUrl,
-            CasinoId: source.CasinoId,
-            GameHistoryApiToken: source.GameHistoryApiToken,
-            StartDate: source.StartTime,
-            EndDate: source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
-        {
-            Success = result.Success,
-        };
-    }
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        EvolutionTransferQueryViewModel source)
+        => client.Evolution_ScheduleFormQueuedAsync(
+             gameProviderCode: "EVOTF",
+             name: "Configuration",
+             subject: "gp.gamerecord.scheduleform.awc.queued",
+             source: ScheduleFormSource.Manual,
+             apiUrl: source.ApiUrl,
+             casinoId: source.CasinoId,
+             gameHistoryApiToken: source.GameHistoryApiToken,
+             startTime: source.StartTime,
+             endTime: source.EndTime,
+             cancellationToken: HttpContext.RequestAborted);
 }

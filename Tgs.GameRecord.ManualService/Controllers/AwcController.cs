@@ -12,7 +12,7 @@ public class AwcController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="clinet">The clinet.</param>
+    /// <param name="client">The clinet.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -30,9 +30,9 @@ public class AwcController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient clinet,
+        [FromServices] IGameRoundsScheduleClient client,
          AwcQueryViewModel source)
-        => clinet.AWC_ScheduleFormQueuedAsync(
+        => client.AWC_ScheduleFormQueuedAsync(
              gameProviderCode: source.GameProviderCode,
              name: source.GameProviderAgentId,
              subject: "gp.gamerecord.scheduleform.awc.queued",
