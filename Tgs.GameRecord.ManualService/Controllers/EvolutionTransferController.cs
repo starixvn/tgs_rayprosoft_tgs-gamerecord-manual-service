@@ -34,7 +34,7 @@ public class EvolutionTransferController : ControllerBase
         => client.Evolution_ScheduleFormQueuedAsync(
              gameProviderCode: "EVOTF",
              name: "Configuration",
-             subject: "gp.gamerecord.scheduleform.awc.queued",
+             subject: "gp.gamerecord.scheduleform.evotf.queued",
              source: ScheduleFormSource.Manual,
              apiUrl: source.ApiUrl,
              casinoId: source.CasinoId,
