@@ -20,7 +20,7 @@ public class FaChaiController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "apiUrl":"https://tttint.onlinegames22.com/",
+    ///             "apiUrl":"http://api.fcg666.net/",
     ///             "agentCode":"GPICN",
     ///             "agentKey":"EOJC9q31Y7AnPb9i",
     ///             "currency":"CNY",
