@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.HabaneroTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
-[Route("habatf")]
+[Route(template: "habatf")]
 [ApiController]
 public class HabaneroTransferController : ControllerBase
 {
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The client.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,20 +29,18 @@ public class HabaneroTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<HabaneroTransferQuery, HabaneroTransferResult> service,
-         HabaneroTransferQueryViewModel source)
-    {
-        var result = await service.GetAsync(new HabaneroTransferQuery(
-            ApiUrl: source.ApiUrl,
-            BrandId: source.BrandId,
-            ApiKey: source.ApiKey,
-            StartTime: source.StartTime,
-            EndTime: source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel
-        {
-            Success = result.Success
-        };
-    }
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        HabaneroTransferQueryViewModel source)
+        => client.Habanero_ScheduleFormQueuedAsync(
+             gameProviderCode: "HABATF",
+             name: "Configuration",
+             subject: "gp.gamerecord.scheduleform.habatf.queued",
+             source: ScheduleFormSource.Manual,
+             apiUrl: source.ApiUrl,
+             brandId: source.BrandId,
+             apiKey: source.ApiKey,
+             startTime: source.StartTime,
+             endTime: source.EndTime,
+             cancellationToken: HttpContext.RequestAborted);
 }

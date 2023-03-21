@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
-using Microsoft.Extensions.Options;
-using OpenTelemetry.Exporter;
 using OpenTelemetry.Instrumentation.AspNetCore;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,59 +77,48 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.pptf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.jilitf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.wmtf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.evotf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.swtf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.jdbtf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.sbotf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.bti")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.habatf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.sabatf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.sm01")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.tftf");
 
 builder.Services
-    .AddSingleton<IConfigureOptions<OtlpExporterOptions>>(
-        sp => new ConfigureNamedOptions<OtlpExporterOptions>(
-            Options.DefaultName,
-            exporterOptions =>
-            {
-                var config = sp.GetRequiredService<IConfiguration>();
-                var nodeIp = config.GetValue<string>("NODE_IP")!;
-
-                if (!string.IsNullOrWhiteSpace(nodeIp))
-                    exporterOptions.Endpoint = new Uri($"http://{nodeIp}:4317");
-
-                config.GetSection("Opentelemetry:Tracing").Bind(exporterOptions);
-            }))
     .AddOpenTelemetry()
-    .ConfigureResource(resource => resource
-        .AddEnvironmentVariableDetector())
-    .WithTracing(tracerBuilder => tracerBuilder
+    .WithTracing(builder => builder
+        .SetResourceBuilder(ResourceBuilder.CreateDefault()
+            .AddEnvironmentVariableDetector())
         .AddSource("Tgs.*")
         .AddSource("TGS.*")
         .AddAspNetCoreInstrumentation()
-        .AddGrpcClientInstrumentation()
         .AddHttpClientInstrumentation()
-        .AddProfileViewExporter()
+        .AddGrpcClientInstrumentation()
+        .AddGrpcCoreInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
         .AddOtlpExporter())
+    .WithMetrics(meterBuiler => meterBuiler
+    .SetResourceBuilder(ResourceBuilder.CreateDefault()
+    .AddEnvironmentVariableDetector())
+    .AddRuntimeInstrumentation()
+    .AddAspNetCoreInstrumentation()
+    .AddOtlpExporter())
     .Services
-    .AddProfileViewer()
-    .Configure<AspNetCoreInstrumentationOptions>(options =>
-    {
-        options.Filter = httpContext =>
-        {
-            return !httpContext.Request.Path.HasValue
-                   || !httpContext.Request.Path.StartsWithSegments("/swagger")
-                   && !httpContext.Request.Path.StartsWithSegments("/healthz")
-                   && !httpContext.Request.Path.StartsWithSegments("/profiler/")
-                   && !httpContext.Request.Path.StartsWithSegments("/metrics")
-                   && !new[] { "html", "ico", "png", "jpg" }.Any(
-                       ext => httpContext.Request.Path.Value.EndsWith($".{ext}"));
-        };
-    });
+    .Configure<AspNetCoreInstrumentationOptions>(options => options.Filter =
+        httpContext => !httpContext.Request.Path.HasValue
+            || !httpContext.Request.Path.StartsWithSegments("/swagger")
+            && !httpContext.Request.Path.StartsWithSegments("/health")
+            && !httpContext.Request.Path.StartsWithSegments("/profiler/")
+            && !httpContext.Request.Path.StartsWithSegments("/metrics")
+            && !new[] { "html", "ico", "png", "jpg" }.Any(
+                ext => httpContext.Request.Path.Value.EndsWith($".{ext}")))
+    .AddInterceptionService()
+    .AddServiceUtiltiyInterceptors();
 
 builder.Services
-    .AddHealthChecks();
+    .AddHealthChecks()
+    .ForwardToPrometheus();
 
 var app = builder.Build();
 
@@ -139,8 +128,6 @@ _ = app.UseSwaggerUI();
 _ = app.UseAuthorization();
 
 _ = app.MapControllers();
-
-app.MapProfileViewer();
 
 app.MapHealthChecks("/healthz");
 
