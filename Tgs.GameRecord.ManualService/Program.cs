@@ -83,7 +83,8 @@ builder.Services
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.bti")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.sabatf")
     .AddNatsGlobPatternExchange("gp.gamerecord.manual.sm01")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.tftf");
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.tftf")
+    .AddNatsGlobPatternExchange("gp.gamerecord.manual.endor");
 
 builder.Services
     .AddOpenTelemetry()
