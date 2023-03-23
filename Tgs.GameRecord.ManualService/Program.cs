@@ -3,7 +3,6 @@ using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -109,8 +108,9 @@ builder.Services
     .Configure<AspNetCoreInstrumentationOptions>(options => options.Filter =
         httpContext => !httpContext.Request.Path.HasValue
             || !httpContext.Request.Path.StartsWithSegments("/swagger")
-            && !httpContext.Request.Path.StartsWithSegments("/health")
+            && !httpContext.Request.Path.StartsWithSegments("/healthz")
             && !httpContext.Request.Path.StartsWithSegments("/profiler/")
+            && !httpContext.Request.Path.StartsWithSegments("/hangfire")
             && !httpContext.Request.Path.StartsWithSegments("/metrics")
             && !new[] { "html", "ico", "png", "jpg" }.Any(
                 ext => httpContext.Request.Path.Value.EndsWith($".{ext}")))
@@ -118,8 +118,7 @@ builder.Services
     .AddServiceUtiltiyInterceptors();
 
 builder.Services
-    .AddHealthChecks()
-    .ForwardToPrometheus();
+    .AddHealthChecks();
 
 var app = builder.Build();
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.SkywindTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +12,7 @@ public class SkywindTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The client.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,25 +29,19 @@ public class SkywindTransferController : ControllerBase
     ///          }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<SkywindTransferQuery, SkywindTransferResult> service,
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient client,
         SkywindTransferQueryViewModel source)
-    {
-        var request = new SkywindTransferQuery(
-            source.ApiUrl,
-            source.SecretKey,
-            source.Username,
-            source.Password,
-            source.StartTime,
-            source.EndTime);
-        var result = await service.GetAsync(
-            request,
-            HttpContext.RequestAborted
-            ).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
-        {
-            Success = result.Success,
-        };
-    }
+        => client.Skywind_ScheduleFormQueuedAsync(
+             gameProviderCode: "SWTF",
+             name: "Configuration",
+             subject: "gp.gamerecord.scheduleform.swtf.queued",
+             source: ScheduleFormSource.Manual,
+             apiUrl: source.ApiUrl,
+             secretKey: source.SecretKey,
+             username: source.Username,
+             password: source.Password,
+             startTime: source.StartTime,
+             endTime: source.EndTime,
+             cancellationToken: HttpContext.RequestAborted);
 }
