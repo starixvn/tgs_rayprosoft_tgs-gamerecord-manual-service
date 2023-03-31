@@ -23,8 +23,8 @@ public class OBetController : ControllerBase
     ///             "apiUrl": "https://sports-api.ob33club.com/",
     ///             "apiKey": "G4sL7r0kKFI5Mm317w99",
     ///             "agentId": "YYTES12",
-    ///             "startDate": "2023-03-29T17:26:00+08:00",
-    ///             "endDate": "2023-03-29T18:00:00+08:00"
+    ///             "startTime": "2023-03-29T17:26:00+08:00",
+    ///             "endTime": "2023-03-29T18:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
