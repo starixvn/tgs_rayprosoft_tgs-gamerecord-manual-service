@@ -3,7 +3,7 @@ using Tgs.GameRecord.ManualService.Attributes;
 
 namespace Tgs.GameRecord.ManualService.ViewModels;
 
-public record FaChaiQueryViewModel
+public record FaChaiViewModel
 {
     [Required]
     public Uri ApiUrl { get; init; } = default!;

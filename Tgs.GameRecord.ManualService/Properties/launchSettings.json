@@ -9,27 +9,27 @@
     }
   },
   "profiles": {
-    "Tgs.GameRecord.ManualService": {
+    "http": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5066",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "OTEL_SERVICE_NAME": "Game-Gamerecord-Manual-Service(local)",
+        "OTEL_SERVICE_NAME": "Game-GameRecord-OBet-Schedule(local)",
         "NODE_IP": "otel.rpgp.cc"
-      },
-      "applicationUrl": "https://localhost:7066;http://localhost:5066",
-      "dotnetRunMessages": true
+      }
     },
-    "Docker (1)": {
-      "commandName": "Docker",
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
-      "publishAllPorts": true,
-      "useSSL": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7066;http://localhost:5066",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "OTEL_SERVICE_NAME": "Game-Gamerecord-Manual-Service(local)",
+        "OTEL_SERVICE_NAME": "Game-GameRecord-OBet-Schedule(local)",
         "NODE_IP": "otel.rpgp.cc"
       }
     }

@@ -31,7 +31,7 @@ public class FaChaiController : ControllerBase
     [HttpPost]
     public ValueTask GameRecordAsync(
         [FromServices] IGameRoundsScheduleClient client,
-        FaChaiQueryViewModel source)
+        FaChaiViewModel source)
         => client.FaChai_ScheduleFormQueuedAsync(
              gameProviderCode: "FACHAI",
              name: source.AgentCode,
