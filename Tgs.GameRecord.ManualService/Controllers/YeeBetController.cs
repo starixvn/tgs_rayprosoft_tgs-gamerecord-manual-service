@@ -23,7 +23,7 @@ public class YeeBetController : ControllerBase
     ///             "apiUrl": "http://api.98kbus.top/",
     ///             "appId": "xtdA15OTVGEP",
     ///             "secretKey": "4885366DF30D880224FF6AA46FBDE4F0",
-    ///             "beginTime": "2023-04-10T10:00:00+08:00",
+    ///             "startTime": "2023-04-10T10:00:00+08:00",
     ///             "endTime": "2023-04-10T11:00:00+08:00"
     ///         }
     /// </remarks>
@@ -36,7 +36,7 @@ public class YeeBetController : ControllerBase
             ApiUrl: source.ApiUrl,
             AppId: source.AppId,
             SecretKey: source.SecretKey,
-            BeginTime: source.BeginTime,
+            BeginTime: source.StartTime,
             EndTime: source.EndTime), HttpContext.RequestAborted).ConfigureAwait(false);
 
         return new GameRecorResultViewModel

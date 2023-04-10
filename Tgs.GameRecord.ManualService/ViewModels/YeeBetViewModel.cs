@@ -15,7 +15,7 @@ public record YeeBetViewModel
 
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTimeOffset BeginTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
 
     [Required]
     [DataType(DataType.DateTime)]
