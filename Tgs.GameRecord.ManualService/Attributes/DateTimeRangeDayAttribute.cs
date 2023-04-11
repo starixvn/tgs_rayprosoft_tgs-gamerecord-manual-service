@@ -27,6 +27,6 @@ public class DateTimeRangeDayAttribute : ValidationAttribute
 
         return startTime < endTime && diffTimeSpan.TotalDays <= MaxLimitDay ?
             ValidationResult.Success :
-            new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited({MaxLimitDay}d).");
+            new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited({MaxLimitDay}day).");
     }
 }
