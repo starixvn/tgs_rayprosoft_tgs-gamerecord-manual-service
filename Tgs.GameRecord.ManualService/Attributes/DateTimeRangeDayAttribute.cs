@@ -7,26 +7,26 @@ namespace Tgs.GameRecord.ManualService.Attributes;
 [AttributeUsage(AttributeTargets.Property)]
 public class DateTimeRangeDayAttribute : ValidationAttribute
 {
-    private int _maxLimitDay { get; set; }
+    private int MaxLimitDay { get; set; }
 
-    private string _startTime { get; set; }
+    private string StartTime { get; set; }
 
     public DateTimeRangeDayAttribute(string startTime, int maxLimitDay)
     {
-        _startTime = startTime;
-        _maxLimitDay = maxLimitDay;
+        StartTime = startTime;
+        MaxLimitDay = maxLimitDay;
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         DateTime endTime = (DateTime)value;
 
-        DateTime startTime = (DateTime)validationContext.ObjectType.GetProperty(_startTime).GetValue(validationContext.ObjectInstance, null);
+        DateTime startTime = (DateTime)validationContext.ObjectType.GetProperty(StartTime).GetValue(validationContext.ObjectInstance, null);
 
         TimeSpan diffTimeSpan = endTime.Subtract(startTime);
 
-        return startTime < endTime && diffTimeSpan.TotalMinutes <= _maxLimitDay ?
+        return startTime < endTime && diffTimeSpan.TotalDays <= MaxLimitDay ?
             ValidationResult.Success :
-            new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited({_maxLimitDay}d).");
+            new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited({MaxLimitDay}d).");
     }
 }
