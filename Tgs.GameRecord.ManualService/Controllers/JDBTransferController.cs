@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.JDBTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +12,7 @@ public class JDBTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The client.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -30,22 +30,20 @@ public class JDBTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<JDBTransferQuery, JDBTransferResult> service,
-         JDBTransferQueryViewModel source)
-    {
-        var result = await service.GetAsync(new JDBTransferQuery(
-                ApiUrl: source.ApiUrl,
-                Domain: source.Domain,
-                AesKey: source.AesKey,
-                AesIV: source.AesIV,
-                Agent: source.Agent,
-                StartTime: source.StartTime,
-                EndTime: source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
-        {
-            Success = result.Success,
-        };
-    }
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        JDBTransferQueryViewModel source)
+        => client.JDB_ScheduleFormQueuedAsync(
+             gameProviderCode: "JDBTF",
+             name: source.Agent,
+             subject: "gp.gamerecord.scheduleform.jdbtf.queued",
+             source: ScheduleFormSource.Manual,
+             apiUrl: source.ApiUrl,
+             domain: source.Domain,
+             aesKey: source.AesKey,
+             aesIV: source.AesIV,
+             agent: source.Agent,
+             startTime: source.StartTime,
+             endTime: source.EndTime,
+             cancellationToken: HttpContext.RequestAborted);
 }
