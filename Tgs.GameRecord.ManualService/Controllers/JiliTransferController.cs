@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.JiliTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +12,7 @@ public class JiliTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The client.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -28,20 +28,20 @@ public class JiliTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<JiliTransferQuery, JiliTransferResult> service,
-         JiliTransferQueryViewModel source)
-    {
-        var result = await service.GetAsync(new JiliTransferQuery(
-            GameApiUrl: source.ApiUrl,
-            GameProviderAgentId: source.GameProviderAgentId,
-            GameProviderAgentKey: source.GameProviderAgentKey,
-            StartTime: source.StartTime,
-            EndTime: source.EndTime)).ConfigureAwait(false);
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        JiliTransferQueryViewModel source)
+        => client
+        .Jili_ScheduleFormQueuedAsync(
+            gameProviderCode: "JILITF",
+            name: source.GameProviderAgentId,
+            subject: "gp.gamerecord.scheduleform.jilitf.queued",
+            source: ScheduleFormSource.Manual,
+            apiUrl: source.ApiUrl,
+            agentId: source.GameProviderAgentId,
+            agentKey: source.GameProviderAgentKey,
+            startTime: source.StartTime,
+            endTime: source.EndTime,
+            cancellationToken: HttpContext.RequestAborted);
 
-        return new GameRecorResultViewModel()
-        {
-            Success = result.Success,
-        };
-    }
 }
