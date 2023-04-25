@@ -1,10 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
 using Tgs.GameRecord.ManualService.Attributes;
 
 namespace Tgs.GameRecord.ManualService.ViewModels;
 
-public record PragmaticPlayTransferQueryViewModel()
+public record PragmaticPlayTransferQueryViewModel
 {
+    /// <summary>
+    /// The API URL
+    /// </summary>
+    [Required]
+    public Uri ApiUrl { get; init; } = default!;
+    /// <summary>
+    /// The secure login
+    /// </summary>
+    [Required]
+    public string SecureLogin { get; init; } = default!;
+    /// <summary>
+    /// The secret key
+    /// </summary>
+    [Required]
+    public string SecretKey { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
     public DateTime StartTime { get; init; }

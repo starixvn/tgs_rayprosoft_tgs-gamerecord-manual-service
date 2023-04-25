@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.PragmaticPlayTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -9,10 +8,11 @@ namespace Tgs.GameRecord.ManualService.Controllers;
 [ApiController]
 public class PragmaticPlayTransferController : ControllerBase
 {
+
     /// <summary>
-    /// Games the record by fishing asynchronous.
+    /// Games the record by live dealer asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The client.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -20,136 +20,97 @@ public class PragmaticPlayTransferController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
-    ///         }
-    /// </remarks>
-    [HttpPost("Fishing")]
-    public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByFishingAsync(
-        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
-        PragmaticPlayTransferQueryViewModel source)
-    {
-        var request = new PragmaticPlayTransferQuery(
-            GameDataType: PragmaticPlayTransferDataType.Fishing,
-            StartTime: source.StartTime,
-            EndTime: source.EndTime);
-
-        var result = await service.GetAsync(query: request).ConfigureAwait(false);
-
-        return new PragmaticPlayTransferResultViewModel
-        {
-            Success = result.Success,
-            Message = result.Message,
-            NextTime = result.NextTime,
-            LastGameRecordTime = result.LastGameRecordTime
-        };
-    }
-
-    /// <summary>
-    /// Games the record by live dealer asynchronous.
-    /// </summary>
-    /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
-    /// <returns></returns>
-    /// <remarks>
-    /// <b>Example</b><br />
-    ///
-    ///     Post
-    ///         {
-    ///             "startTime":"2022-07-26T22:00:00+08:00",
-    ///             "endTime":"2022-07-26T23:00:00+08:00"
+    ///             "apiUrl": "https://api.prerelease-env.biz/",
+    ///             "secureLogin": "tgs_tgstfw",
+    ///             "secretKey": "testKey",
+    ///             "startTime":"2023-04-21T11:20:00+08:00",
+    ///             "endTime":"2023-04-21T11:30:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("LiveDealer")]
-    public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByLiveDealerAsync(
-        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
-        PragmaticPlayTransferQueryViewModel model)
-    {
-        var request = new PragmaticPlayTransferQuery(
-            GameDataType: PragmaticPlayTransferDataType.LiveDealer,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime);
-
-        var result = await service.GetAsync(query: request).ConfigureAwait(false);
-
-        return new PragmaticPlayTransferResultViewModel
-        {
-            Success = result.Success,
-            Message = result.Message,
-            NextTime = result.NextTime,
-            LastGameRecordTime = result.LastGameRecordTime
-        };
-    }
+    public ValueTask GameRecordByLiveDealerAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        PragmaticPlayTransferQueryViewModel source)
+        => client
+        .PragmaticPlay_Manua_ScheduleFormQueuedAsync(
+            gameProviderCode: "PPTF",
+            name: "LC",
+            subject: "gp.gamerecord.scheduleform.pptf.queued",
+            apiUrl: source.ApiUrl,
+            secureLogin: source.SecureLogin,
+            secretKey: source.SecretKey,
+            dataType: "LC",
+            startTime: source.StartTime,
+            endTime: source.EndTime,
+            cancellationToken: HttpContext.RequestAborted);
 
     /// <summary>
     /// Games the record by RNG asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="client">The client.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
     ///
     ///     Post
     ///         {
-    ///             "startTime":"2022-07-26T22:00:00+08:00",
-    ///             "endTime":"2022-07-26T23:00:00+08:00"
+    ///             "apiUrl": "https://api.prerelease-env.biz/",
+    ///             "secureLogin": "tgs_tgstfw",
+    ///             "secretKey": "testKey",
+    ///             "startTime":"2023-04-21T13:30:00+08:00",
+    ///             "endTime":"2023-04-21T13:40:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("RNG")]
-    public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByRNGAsync(
-        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
-        PragmaticPlayTransferQueryViewModel model)
-    {
-        var request = new PragmaticPlayTransferQuery(
-            GameDataType: PragmaticPlayTransferDataType.RNG,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime);
-
-        var result = await service.GetAsync(query: request).ConfigureAwait(false);
-
-        return new PragmaticPlayTransferResultViewModel
-        {
-            Success = result.Success,
-            Message = result.Message,
-            NextTime = result.NextTime,
-            LastGameRecordTime = result.LastGameRecordTime
-        };
-    }
+    public ValueTask GameRecordByRNGAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        PragmaticPlayTransferQueryViewModel source)
+        => client
+        .PragmaticPlay_Manua_ScheduleFormQueuedAsync(
+            gameProviderCode: "PPTF",
+            name: "RNG",
+            subject: "gp.gamerecord.scheduleform.pptf.queued",
+            apiUrl: source.ApiUrl,
+            secureLogin: source.SecureLogin,
+            secretKey: source.SecretKey,
+            dataType: "RNG",
+            startTime: source.StartTime,
+            endTime: source.EndTime,
+            cancellationToken: HttpContext.RequestAborted);
 
     /// <summary>
     /// Games the record by virtual sports asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
-    /// <param name="model">The model.</param>
+    /// <param name="client">The client.</param>
+    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
     ///
     ///     Post
     ///         {
-    ///             "startTime":"2022-07-26T22:00:00+08:00",
-    ///             "endTime":"2022-07-26T23:00:00+08:00"
+    ///             "apiUrl": "https://api.prerelease-env.biz/",
+    ///             "secureLogin": "tgs_tgstfw",
+    ///             "secretKey": "testKey",
+    ///             "startTime":"2023-04-21T11:55:00+08:00",
+    ///             "endTime":"2023-04-21T12:05:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("VirtualSports")]
-    public async ValueTask<PragmaticPlayTransferResultViewModel> GameRecordByVirtualSportsAsync(
-        [FromServices] IGetService<PragmaticPlayTransferQuery, PragmaticPlayTransferResult> service,
-        PragmaticPlayTransferQueryViewModel model)
-    {
-        var request = new PragmaticPlayTransferQuery(
-            GameDataType: PragmaticPlayTransferDataType.VirtualSports,
-            StartTime: model.StartTime,
-            EndTime: model.EndTime);
-
-        var result = await service.GetAsync(query: request).ConfigureAwait(false);
-
-        return new PragmaticPlayTransferResultViewModel
-        {
-            Success = result.Success,
-            Message = result.Message,
-            NextTime = result.NextTime,
-            LastGameRecordTime = result.LastGameRecordTime
-        };
-    }
+    public ValueTask GameRecordByVirtualSportsAsync(
+        [FromServices] IGameRoundsScheduleClient client,
+        PragmaticPlayTransferQueryViewModel source)
+        => client
+        .PragmaticPlay_Manua_ScheduleFormQueuedAsync(
+            gameProviderCode: "PPTF",
+            name: "VSB",
+            subject: "gp.gamerecord.scheduleform.pptf.queued",
+            apiUrl: source.ApiUrl,
+            secureLogin: source.SecureLogin,
+            secretKey: source.SecretKey,
+            dataType: "VSB",
+            startTime: source.StartTime,
+            endTime: source.EndTime,
+            cancellationToken: HttpContext.RequestAborted);
 }
