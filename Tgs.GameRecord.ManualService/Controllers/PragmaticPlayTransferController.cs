@@ -8,7 +8,6 @@ namespace Tgs.GameRecord.ManualService.Controllers;
 [ApiController]
 public class PragmaticPlayTransferController : ControllerBase
 {
-
     /// <summary>
     /// Games the record by live dealer asynchronous.
     /// </summary>
