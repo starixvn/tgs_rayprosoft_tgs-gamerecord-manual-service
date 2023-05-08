@@ -31,7 +31,7 @@ public class PragmaticPlayTransferController : ControllerBase
         [FromServices] IGameRoundsScheduleClient client,
         PragmaticPlayTransferQueryViewModel source)
         => client
-        .PragmaticPlay_Manua_ScheduleFormQueuedAsync(
+        .PragmaticPlay_Manual_ScheduleFormQueuedAsync(
             gameProviderCode: "PPTF",
             name: "LC",
             subject: "gp.gamerecord.scheduleform.pptf.queued",
@@ -66,7 +66,7 @@ public class PragmaticPlayTransferController : ControllerBase
         [FromServices] IGameRoundsScheduleClient client,
         PragmaticPlayTransferQueryViewModel source)
         => client
-        .PragmaticPlay_Manua_ScheduleFormQueuedAsync(
+        .PragmaticPlay_Manual_ScheduleFormQueuedAsync(
             gameProviderCode: "PPTF",
             name: "RNG",
             subject: "gp.gamerecord.scheduleform.pptf.queued",
@@ -101,7 +101,7 @@ public class PragmaticPlayTransferController : ControllerBase
         [FromServices] IGameRoundsScheduleClient client,
         PragmaticPlayTransferQueryViewModel source)
         => client
-        .PragmaticPlay_Manua_ScheduleFormQueuedAsync(
+        .PragmaticPlay_Manual_ScheduleFormQueuedAsync(
             gameProviderCode: "PPTF",
             name: "VSB",
             subject: "gp.gamerecord.scheduleform.pptf.queued",
