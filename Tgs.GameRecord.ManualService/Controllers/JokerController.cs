@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.Joker;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.GameRounds.Schedule.Client;
+using Tgs.GameRounds.Schedule.Protos;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,40 +12,35 @@ public class JokerController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="client">The client.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
-    /// <b>Example</b><br/>
+    /// <b>Example</b><br />
     ///
     ///     Post
     ///         {
-    ///             "brandCode": "Default",
-    ///             "agentId": "TGVY",
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
+    ///             "apiUrl": "https://w.api788.net/",
+    ///             "appId": "THDT",
+    ///             "secretKey": "s5gawreoto5e1",
+    ///             "startTime": "2023-05-29T14:50:00+08:00",
+    ///             "endTime": "2023-05-29T15:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<JokerResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<JokerQuery, JokerResult> service,
+    public ValueTask GameRecordAsync(
+        [FromServices] IGameRoundsScheduleClient client,
         JokerQueryViewModel source)
-    {
-        var result = await service.GetAsync(new JokerQuery()
-        {
-            BrandCode = source.BrandCode,
-            AgentId = source.AgentId,
-            StartTime = source.StartTime,
-            EndTime = source.EndTime
-        }).ConfigureAwait(false);
-
-        return new JokerResultViewModel()
-        {
-            Success = result.Success,
-            LastGameRecordTime = result.LastGameRecordTime,
-            SuccessCount = result.SuccessCount,
-            FailureCount = result.FailureCount,
-            Count = result.Count,
-        };
-    }
+        => client
+        .Joker_ScheduleFormQueuedAsync(
+            gameProviderCode: "JILITF",
+            name: source.AppId,
+            subject: "gp.gamerecord.scheduleform.joker.queued",
+            source: ScheduleFormSource.Manual,
+            apiUrl: source.ApiUrl,
+            appId: source.AppId,
+            secretKey: source.SecretKey,
+            startTime: source.StartTime,
+            endTime: source.EndTime,
+            cancellationToken: HttpContext.RequestAborted);
 }

@@ -6,14 +6,16 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record JokerQueryViewModel()
 {
     [Required]
-    public string BrandCode { get; init; } = default!;
+    public Uri ApiUrl { get; init; } = default!;
     [Required]
-    public string AgentId { get; init; } = default!;
+    public string AppId { get; init; } = default!;
+    [Required]
+    public string SecretKey { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
     public DateTime StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 3600)]
+    [DateTimeRangeMinutes("StartTime", 60)]
     public DateTime EndTime { get; init; }
 }
