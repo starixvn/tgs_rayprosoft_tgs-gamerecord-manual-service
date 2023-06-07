@@ -33,7 +33,7 @@ public class JokerController : ControllerBase
         JokerQueryViewModel source)
         => client
         .Joker_ScheduleFormQueuedAsync(
-            gameProviderCode: "JILITF",
+            gameProviderCode: "JOKER",
             name: source.AppId,
             subject: "gp.gamerecord.scheduleform.joker.queued",
             source: ScheduleFormSource.Manual,
