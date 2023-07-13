@@ -27,16 +27,28 @@ public class WGViaGamingController : ControllerBase
     ///             "partnerKey": "a888888888888888",
     ///             "partnerIV": "b888888888888888",
     ///             "startTime": "2023-06-28T00:00:00+08:00",
-    ///             "endTime": "2023-06-29T00:00:00+08:00",
+    ///             "endTime": "2023-06-29T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
         [FromServices] IMessageSender messageSender,
          WGViaGamingQueryViewModel source)
-        => messageSender.PublishAsync(
+    {
+        var data = new
+        {
+            source.ApiUrl,
+            source.PartnerCode,
+            SecretKey = source.PartnerKey,
+            SecretIV = source.PartnerIV,
+            source.StartTime,
+            source.EndTime
+        };
+        return messageSender
+            .PublishAsync(
             subject: "gp.gamerecord.manual.wgvia",
-           data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(source)),
-           cancellationToken: HttpContext.RequestAborted);
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 
 }
