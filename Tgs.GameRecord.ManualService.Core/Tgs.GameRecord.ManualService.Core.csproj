@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Tgs.GameRounds.Schedule.Client" Version="0.0.33" />
 		<PackageReference Include="Tgs.MessageQueue" Version="2.3.0" />
-		<PackageReference Include="Tgs.MessageQueue.Nats" Version="2.3.0" />
+		<PackageReference Include="Tgs.MessageQueue.Nats" Version="2.3.1" />
 		<PackageReference Include="TGS.ServiceUtility" Version="0.2.0" />
 	</ItemGroup>
 
