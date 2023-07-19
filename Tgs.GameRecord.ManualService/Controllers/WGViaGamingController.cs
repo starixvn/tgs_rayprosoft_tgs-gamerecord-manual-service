@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using System.Text;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.MessageQueue;
@@ -20,7 +20,7 @@ public class WGViaGamingController : ControllerBase
     /// <b>Example</b><br />
     ///
     ///     Post
-    ///     
+    ///
     ///         {
     ///             "apiUrl": "https://via.itd888.com/",
     ///             "partnerCode": "PT",
@@ -50,5 +50,4 @@ public class WGViaGamingController : ControllerBase
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
             cancellationToken: HttpContext.RequestAborted);
     }
-
 }
