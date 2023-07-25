@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.AVIAGaming;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,38 +13,37 @@ public class AVIAGamingController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
     ///
     ///     Post
+    ///
     ///         {
-    ///             "brandCode":"Default",
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
+    ///             "apiUrl": "https://api.ksdj004.com/",
+    ///             "authorization": "81e2d1a24c684a76a710a70f4900a353",
+    ///             "startTime": "2023-07-21T07:00:00+00:00",
+    ///             "endTime": "2023-07-21T09:00:00+00:00"
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<AVIAGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<AVIAGamingQuery, AVIAGamingResult> service,
-         AVIAGamingQueryViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+         AVIAGamingViewModel source)
     {
-        var result = await service.GetAsync(new AVIAGamingQuery()
+        var data = new
         {
-            BrandCode = source.BrandCode,
-            StartTime = source.StartTime,
-            EndTime = source.EndTime
-        }).ConfigureAwait(false);
-
-        return new AVIAGamingResultViewModel()
-        {
-            Success = result.Success,
-            LastGameRecordTime = result.LastGameRecordTime,
-            SuccessCount = result.SuccessCount,
-            FailureCount = result.FailureCount,
-            Count = result.Count,
+            source.ApiUrl,
+            source.Authorization,
+            source.StartTime,
+            source.EndTime
         };
+        return messageSender
+            .PublishAsync(
+            subject: "gp.gamerecord.manual.avia",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }
