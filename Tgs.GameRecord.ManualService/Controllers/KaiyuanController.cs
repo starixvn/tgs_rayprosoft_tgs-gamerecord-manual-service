@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.Kaiyuan;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Tgs.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +13,7 @@ public class KaiyuanController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -20,32 +21,32 @@ public class KaiyuanController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "brandCode":"Default",
-    ///             "currencyCode":"CNY",
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
+    ///             "apiRecordUrl": "https://record.szj5888.com/",
+    ///             "deskey": "8AB567D20F43101C",
+    ///             "md5key": "92A194FF62CD8078",
+    ///             "agentId": "602949",
+    ///             "startTime": "2023-07-19T15:50:00+08:00",
+    ///             "endTime": "2023-07-19T16:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<KaiyuanResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<KaiyuanQuery, KaiyuanResult> service,
-         KaiyuanQueryViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+        KaiyuanViewModel source)
     {
-        var result = await service.GetAsync(new KaiyuanQuery()
+        var data = new
         {
-            BrandCode = source.BrandCode,
-            CurrencyCode = source.CurrencyCode,
-            StartTime = source.StartTime,
-            EndTime = source.EndTime
-        }).ConfigureAwait(false);
-
-        return new KaiyuanResultViewModel()
-        {
-            Success = result.Success,
-            LastGameRecordTime = result.LastGameRecordTime,
-            SuccessCount = result.SuccessCount,
-            FailureCount = result.FailureCount,
-            Count = result.Count,
+            ApiUrl = source.ApiRecordUrl,
+            source.Deskey,
+            source.Md5key,
+            source.AgentId,
+            source.StartTime,
+            source.EndTime
         };
+        return messageSender
+            .PublishAsync(
+            subject: "gp.gamerecord.manual.ky",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }
