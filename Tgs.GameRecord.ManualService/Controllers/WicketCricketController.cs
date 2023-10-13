@@ -21,7 +21,7 @@ public class WicketCricketController : ControllerBase
     ///     Post
     ///         {
     ///             "apiUrl": "https://apiinfo.cckk77.net/",
-    ///             "website": "Bookmaker",
+    ///             "website": "WICKETSPRO",
     ///             "cert": "wkVwQ8sMVr252EA9",
     ///             "agent": "zf055gpi",
     ///             "startTime": "2023-09-27T00:00:00+08:00",
@@ -95,7 +95,7 @@ public class WicketCricketController : ControllerBase
     ///     Post
     ///         {
     ///             "apiUrl": "https://apiinfo.cckk77.net/",
-    ///             "website": "Bookmaker",
+    ///             "website": "WICKETSPRO",
     ///             "cert": "wkVwQ8sMVr252EA9",
     ///             "agent": "zf055gpi",
     ///             "startTime": "2023-09-27T00:00:00+08:00",
