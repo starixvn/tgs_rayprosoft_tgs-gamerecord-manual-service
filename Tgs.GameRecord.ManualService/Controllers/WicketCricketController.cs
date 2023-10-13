@@ -25,8 +25,7 @@ public class WicketCricketController : ControllerBase
     ///             "cert": "wkVwQ8sMVr252EA9",
     ///             "agent": "zf055gpi",
     ///             "startTime": "2023-09-27T00:00:00+08:00",
-    ///             "endTime": "2023-09-28T00:00:00+08:00",
-    ///             "reportType": "Sportsbook"
+    ///             "endTime": "2023-09-28T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("Bookmaker")]
@@ -63,8 +62,7 @@ public class WicketCricketController : ControllerBase
     ///             "cert": "wkVwQ8sMVr252EA9",
     ///             "agent": "zf055gpi",
     ///             "startTime": "2023-09-27T00:00:00+08:00",
-    ///             "endTime": "2023-09-28T00:00:00+08:00",
-    ///             "reportType": "Exchange"
+    ///             "endTime": "2023-09-28T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("Exchange")]
@@ -101,8 +99,7 @@ public class WicketCricketController : ControllerBase
     ///             "cert": "wkVwQ8sMVr252EA9",
     ///             "agent": "zf055gpi",
     ///             "startTime": "2023-09-27T00:00:00+08:00",
-    ///             "endTime": "2023-09-28T00:00:00+08:00",
-    ///             "reportType": "FancyBet"
+    ///             "endTime": "2023-09-28T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("FancyBet")]
@@ -139,8 +136,7 @@ public class WicketCricketController : ControllerBase
     ///             "cert": "wkVwQ8sMVr252EA9",
     ///             "agent": "zf055gpi",
     ///             "startTime": "2023-09-27T00:00:00+08:00",
-    ///             "endTime": "2023-09-28T00:00:00+08:00",
-    ///             "reportType": "Sportsbook"
+    ///             "endTime": "2023-09-28T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost("Sportsbook")]
