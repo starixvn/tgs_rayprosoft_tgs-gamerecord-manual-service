@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Tgs.MessageQueue;
 using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.SabaTransfer;
 

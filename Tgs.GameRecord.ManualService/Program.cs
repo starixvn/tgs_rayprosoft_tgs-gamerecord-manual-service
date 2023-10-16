@@ -63,28 +63,7 @@ builder.Services
          });
      })
     .ClearAllExchanges()
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.avia")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.bg.fishing")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.ky")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.ly")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.tcg")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.vr")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.wgvia")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.wgfm")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.dg")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.joker")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.pptf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.jilitf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.wmtf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.swtf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.jdbtf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sbotf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.bti")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sabatf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.sm01")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.tftf")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.endor")
-    .AddNatsGlobPatternExchange("gp.gamerecord.manual.yeebet");
+    .AddNatsGlobPatternExchange("*");
 
 builder.Services
     .AddOpenTelemetry()
@@ -93,6 +72,7 @@ builder.Services
             .AddEnvironmentVariableDetector())
         .AddSource("Tgs.*")
         .AddSource("TGS.*")
+        .AddSource("Valhalla.*")
         .AddAspNetCoreInstrumentation()
         .AddHttpClientInstrumentation()
         .AddGrpcClientInstrumentation()

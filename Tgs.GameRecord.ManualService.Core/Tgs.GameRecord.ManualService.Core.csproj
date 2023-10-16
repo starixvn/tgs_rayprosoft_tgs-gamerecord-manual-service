@@ -7,9 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="PhoenixToolkits.MessageQueue" Version="1.0.3" />
+		<PackageReference Include="PhoenixToolkits.MessageQueue.Direct" Version="1.0.3" />
+		<PackageReference Include="PhoenixToolkits.MessageQueue.Nats" Version="1.0.3" />
 		<PackageReference Include="Tgs.GameRounds.Schedule.Client" Version="0.0.35" />
-		<PackageReference Include="Tgs.MessageQueue" Version="2.3.0" />
-		<PackageReference Include="Tgs.MessageQueue.Nats" Version="2.3.1" />
 		<PackageReference Include="TGS.ServiceUtility" Version="0.2.0" />
 	</ItemGroup>
 

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.MessageQueue;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
