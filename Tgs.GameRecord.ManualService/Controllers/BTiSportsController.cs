@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
@@ -21,9 +22,7 @@ public class BTiSportsController : ControllerBase
     ///     Post
     ///
     ///         {
-    ///             "tokenApiUrl": "https://asia-east2-bq-data-api.cloudfunctions.net/",
-    ///             "openBetsApiUrl": "https://get-open-bets-d5nlg5buca-de.a.run.app/",
-    ///             "historyBetsPagingApiUrl": "https://get-history-bets-paging-d5nlg5buca-de.a.run.app/",
+    ///             "dataApiUrl": "https://data-api.442hattrick.com/",
     ///             "agentUserName": "PegaGaming_GPIRMB",
     ///             "agentPassword": "IM60Ho7Y4B9C",
     ///             "startTime": "2022-10-24T00:00:00+08:00",
@@ -34,17 +33,21 @@ public class BTiSportsController : ControllerBase
     public ValueTask GameRecordAsync(
         [FromServices] IGameRoundsScheduleClient client,
         BTiSportsQueryViewModel source)
-        => client.BTi_ScheduleFormQueuedAsync(
+    {
+        var parameters = new
+        {
+            source.DataApiUrl,
+            source.AgentUserName,
+            source.AgentPassword,
+            source.StartTime,
+            source.EndTime
+        };
+        return client.ScheduleFormQueuedAsync(
             gameProviderCode: "BTI",
             name: source.AgentUserName,
             subject: "gp.gamerecord.scheduleform.bti.queued",
             source: ScheduleFormSource.Manual,
-            tokenApiUrl: source.TokenApiUrl,
-            openBetsApiUrl: source.OpenBetsApiUrl,
-            historyBetsPagingApiUrl: source.HistoryBetsPagingApiUrl,
-            agentUserName: source.AgentUserName,
-            agentPassword: source.AgentPassword,
-            startTime: source.StartTime,
-            endTime: source.EndTime,
+            parameters: JsonSerializer.Serialize(parameters),
             cancellationToken: HttpContext.RequestAborted);
+    }
 }
