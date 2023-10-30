@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
@@ -32,15 +34,22 @@ public class AwcController : ControllerBase
     public ValueTask GameRecordAsync(
         [FromServices] IGameRoundsScheduleClient client,
          AwcQueryViewModel source)
-        => client.AWC_ScheduleFormQueuedAsync(
-             gameProviderCode: source.GameProviderCode,
-             name: source.GameProviderAgentId,
-             subject: "gp.gamerecord.scheduleform.awc.queued",
-             source: ScheduleFormSource.Manual,
-             apiUrl: source.GameRecordApiUrl,
-             agentId: source.GameProviderAgentId,
-             cert: source.GameProviderCert,
-             startTime: source.StartTime,
-             endTime: source.EndTime,
-             cancellationToken: HttpContext.RequestAborted);
+    {
+        var parameters = new
+        {
+            ApiUrl = source.GameRecordApiUrl,
+            AgentId = source.GameProviderAgentId,
+            Cert = source.GameProviderCert,
+            source.StartTime,
+            source.EndTime
+        };
+
+        return client.ScheduleFormQueuedAsync(
+            gameProviderCode: source.GameProviderCode,
+            name: source.GameProviderAgentId,
+            subject: "gp.gamerecord.scheduleform.awc.queued",
+            source: ScheduleFormSource.Manual,
+            parameters: JsonSerializer.Serialize(parameters),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
