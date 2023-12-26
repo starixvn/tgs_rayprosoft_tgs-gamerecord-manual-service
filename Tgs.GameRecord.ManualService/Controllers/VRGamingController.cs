@@ -46,7 +46,7 @@ public class VRGamingController : ControllerBase
         };
         return messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.vr.schedule",
+            subject: "gp.gamerecord.vr.manual",
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
             cancellationToken: HttpContext.RequestAborted);
     }
