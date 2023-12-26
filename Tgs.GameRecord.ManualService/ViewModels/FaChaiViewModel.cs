@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record FaChaiViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string AgentCode { get; init; } = default!;
@@ -15,9 +16,9 @@ public record FaChaiViewModel
     public string Currency { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRangeMinutes("StartTime", 15)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 15)]
+    public DateTimeOffset EndTime { get; init; }
 }

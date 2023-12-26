@@ -5,18 +5,11 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.WGFmGaming;
 
-internal class WGFmGamingGetService : IGetService<WGFmGamingQuery, WGFmGamingResult>
+internal class WGFmGamingGetService(IMessageSender messageSender) : IGetService<WGFmGamingQuery, WGFmGamingResult>
 {
-    private readonly IMessageSender _messageSender;
-
-    public WGFmGamingGetService(IMessageSender messageSender)
-    {
-        _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
-    }
-
     public async ValueTask<WGFmGamingResult> GetAsync(WGFmGamingQuery query, CancellationToken cancellationToken = default)
     {
-        var readOnlyMemory = await _messageSender.RequestAsync(
+        var readOnlyMemory = await messageSender.RequestAsync(
             "gp.gamerecord.manual.wgfm",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);

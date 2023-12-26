@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record CrPatiViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
 
     [Required]
@@ -15,10 +16,10 @@ public record CrPatiViewModel
     public string ApiSecret { get; init; } = default!;
 
     [Required]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
 
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRangeMinutes("StartTime", 120)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 120)]
+    public DateTimeOffset EndTime { get; init; }
 }

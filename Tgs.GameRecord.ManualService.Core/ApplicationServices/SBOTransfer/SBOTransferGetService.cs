@@ -5,18 +5,11 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.SBOTransfer;
 
-internal class SBOTransferGetService : IGetService<SBOTransferQuery, SBOTransferResult>
+internal class SBOTransferGetService(IMessageSender messageSender) : IGetService<SBOTransferQuery, SBOTransferResult>
 {
-    private readonly IMessageSender _messageSender;
-
-    public SBOTransferGetService(IMessageSender messageSender)
-    {
-        _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
-    }
-
     public async ValueTask<SBOTransferResult> GetAsync(SBOTransferQuery query, CancellationToken cancellationToken = default)
     {
-        var readOnlyMemory = await _messageSender.RequestAsync(
+        var readOnlyMemory = await messageSender.RequestAsync(
             "gp.gamerecord.manual.sbotf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);

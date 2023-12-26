@@ -5,6 +5,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record WGViaGamingQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string PartnerCode { get; init; } = default!;

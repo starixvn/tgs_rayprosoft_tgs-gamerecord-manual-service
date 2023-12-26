@@ -35,8 +35,8 @@ public class TFGamingTransferController : ControllerBase
         var result = await service.GetAsync(new TFGamingTransferQuery(
             ApiUrl: source.ApiUrl,
             PrivateToken: source.PrivateToken,
-            StartTime: source.StartTime,
-            EndTime: source.EndTime)).ConfigureAwait(false);
+            StartTime: source.StartTime.UtcDateTime,
+            EndTime: source.EndTime.UtcDateTime)).ConfigureAwait(false);
 
         return new GameRecorResultViewModel
         {

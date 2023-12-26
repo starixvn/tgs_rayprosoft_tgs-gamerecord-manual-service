@@ -5,28 +5,18 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgs.GameRecord.ManualService.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class DateTimeRangeAttribute : ValidationAttribute
+public class DateTimeRangeAttribute(string columnName, int maxMins) : ValidationAttribute
 {
-    private int MaxLimitSeconds { get; set; }
-
-    private string StartTime { get; set; }
-
-    public DateTimeRangeAttribute(string startTime, int maxLimitSeconds)
-    {
-        StartTime = startTime;
-        MaxLimitSeconds = maxLimitSeconds;
-    }
-
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        DateTime endTime = (DateTime)value;
+        var endTime = (DateTimeOffset)value;
 
-        DateTime startTime = (DateTime)validationContext.ObjectType.GetProperty(StartTime).GetValue(validationContext.ObjectInstance, null);
+        var startTime = (DateTimeOffset)validationContext.ObjectType.GetProperty(columnName).GetValue(validationContext.ObjectInstance, null);
 
         TimeSpan diffTimeSpan = endTime.Subtract(startTime);
 
-        return startTime < endTime && diffTimeSpan.TotalSeconds <= MaxLimitSeconds ?
+        return DateTimeOffset.Compare(startTime, endTime) is -1 && diffTimeSpan.TotalMinutes <= maxMins ?
             ValidationResult.Success :
-            new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited ({MaxLimitSeconds}s).");
+            new ValidationResult($"The start time cannot be greater than the end time, and the time range is limited({maxMins} mins).");
     }
 }

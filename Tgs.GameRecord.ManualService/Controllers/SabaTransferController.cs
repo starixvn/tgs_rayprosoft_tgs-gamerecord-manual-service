@@ -37,8 +37,8 @@ public class SabaTransferController : ControllerBase
             ApiUrl: source.ApiUrl,
             OperatorId: source.OperatorId,
             VendorId: source.VendorId,
-            StartTime: source.StartTime,
-            EndTime: source.EndTime)).ConfigureAwait(false);
+            StartTime: source.StartTime.UtcDateTime,
+            EndTime: source.EndTime.UtcDateTime)).ConfigureAwait(false);
 
         return new GameRecorResultViewModel()
         {

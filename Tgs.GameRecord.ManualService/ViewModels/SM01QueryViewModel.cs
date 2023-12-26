@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record SM01QueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string MerchantId { get; init; } = default!;
@@ -13,9 +14,9 @@ public record SM01QueryViewModel
     public string MerchantKey { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 1800)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 30)]
+    public DateTimeOffset EndTime { get; init; }
 }

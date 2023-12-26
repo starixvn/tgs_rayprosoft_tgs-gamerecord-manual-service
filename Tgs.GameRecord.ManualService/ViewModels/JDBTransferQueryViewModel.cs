@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record JDBTransferQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string Domain { get; init; } = default!;
@@ -17,9 +18,9 @@ public record JDBTransferQueryViewModel
     public string Agent { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRangeMinutes("StartTime", 5)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 5)]
+    public DateTimeOffset EndTime { get; init; }
 }

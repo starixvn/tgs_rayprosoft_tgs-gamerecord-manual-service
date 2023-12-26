@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record HabaneroTransferQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
 
     [Required]
@@ -14,9 +15,9 @@ public record HabaneroTransferQueryViewModel
     public string ApiKey { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 3600)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 60)]
+    public DateTimeOffset EndTime { get; init; }
 }

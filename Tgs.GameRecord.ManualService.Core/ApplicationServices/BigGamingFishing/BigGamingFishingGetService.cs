@@ -5,18 +5,11 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.BigGamingFishing;
 
-internal class BigGamingFishingGetService : IGetService<BigGamingFishingQuery, BigGamingFishingResult>
+internal class BigGamingFishingGetService(IMessageSender messageSender) : IGetService<BigGamingFishingQuery, BigGamingFishingResult>
 {
-    private readonly IMessageSender _messageSender;
-
-    public BigGamingFishingGetService(IMessageSender messageSender)
-    {
-        _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
-    }
-
     public async ValueTask<BigGamingFishingResult> GetAsync(BigGamingFishingQuery query, CancellationToken cancellationToken = default)
     {
-        var readOnlyMemory = await _messageSender.RequestAsync(
+        var readOnlyMemory = await messageSender.RequestAsync(
             "gp.gamerecord.manual.bg.fishing",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);

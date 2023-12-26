@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record Cards365ViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
 
     [Required]
@@ -18,10 +19,10 @@ public record Cards365ViewModel
     public string Extension1 { get; init; } = default!;
 
     [Required]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
 
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRangeMinutes("StartTime", 60)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 60)]
+    public DateTimeOffset EndTime { get; init; }
 }

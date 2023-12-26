@@ -5,18 +5,11 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.Endorphina;
 
-internal class EndorphinaGetService : IGetService<EndorphinaQuery, EndorphinaResult>
+internal class EndorphinaGetService(IMessageSender messageSender) : IGetService<EndorphinaQuery, EndorphinaResult>
 {
-    private readonly IMessageSender _messageSender;
-
-    public EndorphinaGetService(IMessageSender messageSender)
-    {
-        _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
-    }
-
     public async ValueTask<EndorphinaResult> GetAsync(EndorphinaQuery query, CancellationToken cancellationToken = default)
     {
-        var readOnlyMemory = await _messageSender.RequestAsync(
+        var readOnlyMemory = await messageSender.RequestAsync(
         "gp.gamerecord.manual.endor",
         Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
         cancellationToken).ConfigureAwait(false);

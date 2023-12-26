@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record AwcQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri GameRecordApiUrl { get; init; } = default!;
     [Required]
     public string GameProviderCode { get; init; } = default!;
@@ -15,9 +16,9 @@ public record AwcQueryViewModel
     public string GameProviderCert { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRangeMinutes("StartTime", 60)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 60)]
+    public DateTimeOffset EndTime { get; init; }
 }

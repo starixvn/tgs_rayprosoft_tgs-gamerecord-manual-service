@@ -5,6 +5,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record YeeBetViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
 
     [Required]

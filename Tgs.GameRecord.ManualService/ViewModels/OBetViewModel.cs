@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record OBetViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string ApiKey { get; init; } = default!;
@@ -13,9 +14,9 @@ public record OBetViewModel
     public string AgentId { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRangeMinutes("StartTime", 15)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 15)]
+    public DateTimeOffset EndTime { get; init; }
 }

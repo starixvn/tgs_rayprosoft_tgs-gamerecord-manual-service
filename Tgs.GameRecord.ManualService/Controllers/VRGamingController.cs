@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.VRGaming;
+﻿using System.Text;
+
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +14,7 @@ public class VRGamingController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -20,30 +22,32 @@ public class VRGamingController : ControllerBase
     ///
     ///     Post
     ///         {
-    ///             "brandCode":"Default",
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
+    ///             "apiUrl": "https://fe.vrbetdemo.com/",
+    ///             "version": "1.0",
+    ///             "merchantid": "PEGA",
+    ///             "deskey": "8VF408JBV2B406488F2VH2X684T6R6DV",
+    ///             "startTime": "2023-12-25T00:00:00+08:00",
+    ///             "endTime": "2023-12-26T00:00:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<VRGamingResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<VRGamingQuery, VRGamingResult> service,
-         VRGamingQueryViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+        VRGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new VRGamingQuery()
+        var data = new
         {
-            BrandCode = source.BrandCode,
-            StartTime = source.StartTime,
-            EndTime = source.EndTime
-        }).ConfigureAwait(false);
-
-        return new VRGamingResultViewModel()
-        {
-            Success = result.Success,
-            LastGameRecordTime = result.LastGameRecordTime,
-            SuccessCount = result.SuccessCount,
-            FailureCount = result.FailureCount,
-            Count = result.Count,
+            source.ApiUrl,
+            source.Version,
+            source.MerchantId,
+            source.Deskey,
+            source.StartTime,
+            source.EndTime
         };
+        return messageSender
+            .PublishAsync(
+            subject: "gp.gamerecord.vr.schedule",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }

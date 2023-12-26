@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
@@ -52,4 +51,3 @@ public class CrPatiController : ControllerBase
             cancellationToken: HttpContext.RequestAborted);
     }
 }
-

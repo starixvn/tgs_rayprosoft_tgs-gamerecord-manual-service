@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record JiliTransferQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string GameProviderAgentId { get; init; } = default!;
@@ -13,9 +14,9 @@ public record JiliTransferQueryViewModel
     public string GameProviderAgentKey { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
-    [DateTimeRange("StartTime", 3600)]
-    public DateTime EndTime { get; init; }
+    [DateTimeRange("StartTime", 60)]
+    public DateTimeOffset EndTime { get; init; }
 }

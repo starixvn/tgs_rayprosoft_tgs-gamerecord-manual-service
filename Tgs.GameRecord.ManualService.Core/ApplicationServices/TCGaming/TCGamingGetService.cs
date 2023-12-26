@@ -5,18 +5,11 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.TCGaming;
 
-internal class TCGamingGetService : IGetService<TCGamingQuery, TCGamingResult>
+internal class TCGamingGetService(IMessageSender messageSender) : IGetService<TCGamingQuery, TCGamingResult>
 {
-    private readonly IMessageSender _messageSender;
-
-    public TCGamingGetService(IMessageSender messageSender)
-    {
-        _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
-    }
-
     public async ValueTask<TCGamingResult> GetAsync(TCGamingQuery query, CancellationToken cancellationToken = default)
     {
-        var readOnlyMemory = await _messageSender.RequestAsync(
+        var readOnlyMemory = await messageSender.RequestAsync(
             "gp.gamerecord.manual.tcg",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);

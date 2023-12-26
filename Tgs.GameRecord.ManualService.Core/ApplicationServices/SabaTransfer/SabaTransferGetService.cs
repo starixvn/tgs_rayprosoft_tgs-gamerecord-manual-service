@@ -5,18 +5,11 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Core.ApplicationServices.SabaTransfer;
 
-internal class SabaTransferGetService : IGetService<SabaTransferQuery, SabaTransferResult>
+internal class SabaTransferGetService(IMessageSender messageSender) : IGetService<SabaTransferQuery, SabaTransferResult>
 {
-    private readonly IMessageSender _messageSender;
-
-    public SabaTransferGetService(IMessageSender messageSender)
-    {
-        _messageSender = messageSender ?? throw new ArgumentNullException(nameof(messageSender));
-    }
-
     public async ValueTask<SabaTransferResult> GetAsync(SabaTransferQuery query, CancellationToken cancellationToken = default)
     {
-        var readOnlyMemory = await _messageSender.RequestAsync(
+        var readOnlyMemory = await messageSender.RequestAsync(
             "gp.gamerecord.manual.sabatf",
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query)),
             cancellationToken).ConfigureAwait(false);

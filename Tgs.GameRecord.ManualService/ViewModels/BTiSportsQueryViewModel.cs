@@ -5,6 +5,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record BTiSportsQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri DataApiUrl { get; init; } = default!;
     [Required]
     public string AgentUserName { get; init; } = default!;

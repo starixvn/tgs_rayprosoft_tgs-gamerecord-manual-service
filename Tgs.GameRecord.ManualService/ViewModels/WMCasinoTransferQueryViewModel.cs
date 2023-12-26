@@ -6,6 +6,7 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 public record WMCasinoTransferQueryViewModel
 {
     [Required]
+    [DataType(DataType.Url)]
     public Uri ApiUrl { get; init; } = default!;
     [Required]
     public string VendorId { get; init; } = default!;
@@ -13,9 +14,9 @@ public record WMCasinoTransferQueryViewModel
     public string Signature { get; init; } = default!;
     [Required]
     [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; init; }
+    public DateTimeOffset StartTime { get; init; }
     [Required]
     [DataType(DataType.DateTime)]
     [DateTimeRangeDay("StartTime", 1)]
-    public DateTime EndTime { get; init; }
+    public DateTimeOffset EndTime { get; init; }
 }
