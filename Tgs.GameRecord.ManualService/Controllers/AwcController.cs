@@ -39,6 +39,7 @@ public class AwcController : ControllerBase
     {
         var parameters = new
         {
+            source.GameProviderCode,
             ApiUrl = source.GameRecordApiUrl,
             AgentId = source.GameProviderAgentId,
             Cert = source.GameProviderCert,
