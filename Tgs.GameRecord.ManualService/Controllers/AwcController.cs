@@ -1,8 +1,11 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -13,7 +16,7 @@ public class AwcController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The clinet.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -31,8 +34,8 @@ public class AwcController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
-         AwcQueryViewModel source)
+        [FromServices] IMessageSender messageSender,
+        AwcQueryViewModel source)
     {
         var parameters = new
         {
@@ -43,12 +46,9 @@ public class AwcController : ControllerBase
             source.EndTime
         };
 
-        return client.ScheduleFormQueuedAsync(
-            gameProviderCode: source.GameProviderCode,
-            name: source.GameProviderAgentId,
-            subject: "gp.gamerecord.scheduleform.awc.queued",
-            source: ScheduleFormSource.Manual,
-            parameters: JsonSerializer.Serialize(parameters),
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.awc.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }
