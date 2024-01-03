@@ -49,3 +49,4 @@ public class FaChaiController : ControllerBase
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
+}
