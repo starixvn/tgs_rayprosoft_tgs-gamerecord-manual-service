@@ -45,7 +45,7 @@ public class GKXGamingController : ControllerBase
         };
         return messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.manual.gkx",
+            subject: "gp.gamerecord.gkx.manual",
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
             cancellationToken: HttpContext.RequestAborted);
     }
