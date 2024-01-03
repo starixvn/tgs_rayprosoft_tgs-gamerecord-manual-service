@@ -1,8 +1,10 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -13,7 +15,7 @@ public class CrPatiController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The clinet.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -30,8 +32,8 @@ public class CrPatiController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
-         CrPatiViewModel source)
+        [FromServices] IMessageSender messageSender,
+        CrPatiViewModel source)
     {
         var parameters = new
         {
@@ -42,12 +44,9 @@ public class CrPatiController : ControllerBase
             source.EndTime,
         };
 
-        return client.ScheduleFormQueuedAsync(
-            gameProviderCode: "CP",
-            name: source.ApiKey,
-            subject: "gp.gamerecord.scheduleform.cp.queued",
-            source: ScheduleFormSource.Manual,
-            parameters: JsonSerializer.Serialize(parameters),
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.cp.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }
