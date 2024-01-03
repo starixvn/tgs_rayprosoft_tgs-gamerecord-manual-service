@@ -1,8 +1,10 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -13,7 +15,7 @@ public class BTiSportsController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -31,7 +33,7 @@ public class BTiSportsController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         BTiSportsQueryViewModel source)
     {
         var parameters = new
@@ -42,12 +44,10 @@ public class BTiSportsController : ControllerBase
             source.StartTime,
             source.EndTime
         };
-        return client.ScheduleFormQueuedAsync(
-            gameProviderCode: "BTI",
-            name: source.AgentUserName,
-            subject: "gp.gamerecord.scheduleform.bti.queued",
-            source: ScheduleFormSource.Manual,
-            parameters: JsonSerializer.Serialize(parameters),
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.bti.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }
