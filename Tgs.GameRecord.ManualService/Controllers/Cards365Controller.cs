@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -30,17 +33,22 @@ public class Cards365Controller : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-            [FromServices] IGameRoundsScheduleClient client,
-            Cards365ViewModel source)
-            => client.Cards365_Manual_ScheduleFormQueuedAsync(
-                 gameProviderCode: "365TF",
-                 name: source.Extension1,
-                 subject: "gp.gamerecord.scheduleform.365tf.queued",
-                 apiUrl: source.ApiUrl,
-                 website: source.Website,
-                 cert: source.Cert,
-                 extension1: source.Extension1,
-                 startTime: source.StartTime,
-                 endTime: source.EndTime,
-                 cancellationToken: HttpContext.RequestAborted);
+        [FromServices] IMessageSender messageSender,
+        Cards365ViewModel source)
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.Website,
+            source.Cert,
+            source.Extension1,
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.cards365.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
