@@ -34,7 +34,7 @@ public class KaiyuanController : ControllerBase
         [FromServices] IMessageSender messageSender,
         KaiyuanViewModel source)
     {
-        var data = new
+        var parameters = new
         {
             ApiUrl = source.ApiRecordUrl,
             source.Deskey,
@@ -45,8 +45,8 @@ public class KaiyuanController : ControllerBase
         };
         return messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.manual.ky",
-            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            subject: "gp.gamerecord.ky.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }
