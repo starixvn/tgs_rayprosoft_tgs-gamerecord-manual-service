@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +15,7 @@ public class JokerController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,18 +32,21 @@ public class JokerController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         JokerQueryViewModel source)
-        => client
-        .Joker_ScheduleFormQueuedAsync(
-            gameProviderCode: "JOKER",
-            name: source.AppId,
-            subject: "gp.gamerecord.scheduleform.joker.queued",
-            source: ScheduleFormSource.Manual,
-            apiUrl: source.ApiUrl,
-            appId: source.AppId,
-            secretKey: source.SecretKey,
-            startTime: source.StartTime,
-            endTime: source.EndTime,
+    {
+        var parameters = new 
+        {
+            source.ApiUrl,
+            source.AppId,
+            source.SecretKey,
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.joker.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
+    }
 }
