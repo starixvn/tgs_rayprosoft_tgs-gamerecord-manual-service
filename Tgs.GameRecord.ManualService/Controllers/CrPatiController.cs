@@ -2,8 +2,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.GameRounds.Schedule.Client;
-using Tgs.GameRounds.Schedule.Protos;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;

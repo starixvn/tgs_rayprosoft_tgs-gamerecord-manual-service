@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.Endorphina;
+﻿using System.Text;
+
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +14,7 @@ public class EndorphinaController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -28,18 +30,23 @@ public class EndorphinaController : ControllerBase
     /// </remarks>
     [HttpPost]
     public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<EndorphinaQuery, EndorphinaResult> service,
+        [FromServices] IMessageSender messageSender,
         EndorphinaQueryViewModel source)
     {
-        var result = await service.GetAsync(new EndorphinaQuery(
-            ApiUrl: source.ApiUrl,
-            MerchantId: source.MerchantId,
-            SecretKey: source.SecretKey,
-            Token: source.Token), HttpContext.RequestAborted).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel
+        var parameters = new
         {
-            Success = result.Success
+            source.ApiUrl,
+            source.MerchantId,
+            source.SecretKey,
+            source.Token
         };
+
+        var readOnlyMemory = await messageSender.RequestAsync(
+            "gp.gamerecord.manual.endor",
+            Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            HttpContext.RequestAborted)
+            .ConfigureAwait(false);
+
+        return JsonSerializer.Deserialize<GameRecorResultViewModel>(Encoding.UTF8.GetString(readOnlyMemory.Span))!;
     }
 }
