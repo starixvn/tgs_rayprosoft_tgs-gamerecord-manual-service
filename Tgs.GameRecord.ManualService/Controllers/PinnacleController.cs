@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.GameRounds.Schedule.Client;
-using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +13,7 @@ public class PinnacleController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The clinet.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -30,18 +31,21 @@ public class PinnacleController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-            [FromServices] IGameRoundsScheduleClient client,
-            PinnacleViewModel source)
-            => client.Pinnacle_ScheduleFormQueuedAsync(
-                 gameProviderCode: "PINNACLE",
-                 name: source.AgentCode,
-                 subject: "gp.gamerecord.scheduleform.pinnacle.queued",
-                 source: ScheduleFormSource.Manual,
-                 apiUrl: source.ApiUrl,
-                 agentCode: source.AgentCode,
-                 agentKey: source.AgentKey,
-                 secretKey: source.SecretKey,
-                 startTime: source.StartTime,
-                 endTime: source.EndTime,
-                 cancellationToken: HttpContext.RequestAborted);
+        [FromServices] IMessageSender messageSender,
+        PinnacleViewModel source)
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.AgentCode,
+            source.AgentKey,
+            source.SecretKey,
+            source.StartTime,
+            source.EndTime
+        };
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.pinnacle.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
