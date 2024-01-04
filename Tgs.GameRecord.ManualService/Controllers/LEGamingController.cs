@@ -45,7 +45,7 @@ public class LEGamingController : ControllerBase
         };
         return messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.manual.ly",
+            subject: "gp.gamerecord.ly.manual",
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
             cancellationToken: HttpContext.RequestAborted);
     }
