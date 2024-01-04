@@ -34,7 +34,7 @@ public class LEGamingController : ControllerBase
         [FromServices] IMessageSender messageSender,
         LEGamingViewModel source)
     {
-        var data = new
+        var parameters = new
         {
             ApiUrl = source.ApiRecordUrl,
             source.Deskey,
@@ -46,7 +46,7 @@ public class LEGamingController : ControllerBase
         return messageSender
             .PublishAsync(
             subject: "gp.gamerecord.ly.manual",
-            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }

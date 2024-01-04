@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +15,7 @@ public class OBetController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The clinet.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,17 +32,21 @@ public class OBetController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-            [FromServices] IGameRoundsScheduleClient client,
-            OBetViewModel source)
-            => client.OBet_ScheduleFormQueuedAsync(
-                 gameProviderCode: "FACHAI",
-                 name: source.AgentId,
-                 subject: "gp.gamerecord.scheduleform.obet.queued",
-                 source: ScheduleFormSource.Manual,
-                 apiUrl: source.ApiUrl,
-                 apiKey: source.ApiKey,
-                 agentId: source.AgentId,
-                 startTime: source.StartTime,
-                 endTime: source.EndTime,
-                 cancellationToken: HttpContext.RequestAborted);
+        [FromServices] IMessageSender messageSender,
+        OBetViewModel source)
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.ApiKey,
+            source.AgentId,
+            source.StartTime,
+            source.EndTime
+        };
+        return messageSender
+            .PublishAsync(
+            subject: "gp.gamerecord.obet.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
