@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
+using System.Threading;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +16,7 @@ public class HabaneroTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -30,17 +34,21 @@ public class HabaneroTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         HabaneroTransferQueryViewModel source)
-        => client.Habanero_ScheduleFormQueuedAsync(
-             gameProviderCode: "HABATF",
-             name: "Configuration",
-             subject: "gp.gamerecord.scheduleform.habatf.queued",
-             source: ScheduleFormSource.Manual,
-             apiUrl: source.ApiUrl,
-             brandId: source.BrandId,
-             apiKey: source.ApiKey,
-             startTime: source.StartTime,
-             endTime: source.EndTime,
-             cancellationToken: HttpContext.RequestAborted);
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.BrandId,
+            source.ApiKey,
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.habatf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
