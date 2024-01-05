@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.WGFmGaming;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +13,7 @@ public class WGFmGamingController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,21 +30,23 @@ public class WGFmGamingController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<WGFmGamingQuery, WGFmGamingResult> service,
-         WGFmGamingQueryViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+        WGFmGamingQueryViewModel source)
     {
-        var result = await service.GetAsync(new WGFmGamingQuery(
+        var parameters = new
+        {
             source.ApiUrl,
             source.PartnerCode,
             source.PartnerKey,
             source.PartnerIV,
             source.StartTime,
-            source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
-        {
-            Success = result.Success
+            source.EndTime
         };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.wgfm.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }

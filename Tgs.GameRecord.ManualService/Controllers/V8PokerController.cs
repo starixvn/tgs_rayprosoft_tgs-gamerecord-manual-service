@@ -34,7 +34,7 @@ public class V8PokerController : ControllerBase
         [FromServices] IMessageSender messageSender,
         V8PokerViewModel source)
     {
-        var data = new
+        var parameters = new
         {
             ApiUrl = source.ApiRecordUrl,
             source.Deskey,
@@ -46,7 +46,7 @@ public class V8PokerController : ControllerBase
         return messageSender
             .PublishAsync(
             subject: "gp.gamerecord.v8.manual",
-            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }
