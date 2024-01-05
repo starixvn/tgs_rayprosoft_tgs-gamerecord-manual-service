@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text;
+
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.GameRounds.Schedule.Client;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -11,7 +14,7 @@ public class PragmaticPlayTransferController : ControllerBase
     /// <summary>
     /// Games the record by live dealer asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -28,25 +31,29 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("LiveDealer")]
     public ValueTask GameRecordByLiveDealerAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         PragmaticPlayTransferQueryViewModel source)
-        => client
-        .PragmaticPlay_Manual_ScheduleFormQueuedAsync(
-            gameProviderCode: "PPTF",
-            name: "LC",
-            subject: "gp.gamerecord.scheduleform.pptf.queued",
-            apiUrl: source.ApiUrl,
-            secureLogin: source.SecureLogin,
-            secretKey: source.SecretKey,
-            dataType: "LC",
-            startTime: source.StartTime,
-            endTime: source.EndTime,
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.SecureLogin,
+            source.SecretKey,
+            DataType = "LC",
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.pptf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
+    }
 
     /// <summary>
     /// Games the record by RNG asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -63,25 +70,29 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("RNG")]
     public ValueTask GameRecordByRNGAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         PragmaticPlayTransferQueryViewModel source)
-        => client
-        .PragmaticPlay_Manual_ScheduleFormQueuedAsync(
-            gameProviderCode: "PPTF",
-            name: "RNG",
-            subject: "gp.gamerecord.scheduleform.pptf.queued",
-            apiUrl: source.ApiUrl,
-            secureLogin: source.SecureLogin,
-            secretKey: source.SecretKey,
-            dataType: "RNG",
-            startTime: source.StartTime,
-            endTime: source.EndTime,
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.SecureLogin,
+            source.SecretKey,
+            DataType = "RNG",
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.pptf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
+    }
 
     /// <summary>
     /// Games the record by virtual sports asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -98,18 +109,22 @@ public class PragmaticPlayTransferController : ControllerBase
     /// </remarks>
     [HttpPost("VirtualSports")]
     public ValueTask GameRecordByVirtualSportsAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         PragmaticPlayTransferQueryViewModel source)
-        => client
-        .PragmaticPlay_Manual_ScheduleFormQueuedAsync(
-            gameProviderCode: "PPTF",
-            name: "VSB",
-            subject: "gp.gamerecord.scheduleform.pptf.queued",
-            apiUrl: source.ApiUrl,
-            secureLogin: source.SecureLogin,
-            secretKey: source.SecretKey,
-            dataType: "VSB",
-            startTime: source.StartTime,
-            endTime: source.EndTime,
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.SecureLogin,
+            source.SecretKey,
+            DataType = "VSB",
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.pptf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
+    }
 }
