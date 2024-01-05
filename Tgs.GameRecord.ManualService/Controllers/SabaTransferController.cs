@@ -15,7 +15,6 @@ public class SabaTransferController : ControllerBase
     /// </summary>
     /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
-    /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
