@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.SBOTransfer;
+﻿using System.Text;
+
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +14,7 @@ public class SBOTransferController : ControllerBase
     /// <summary>
     /// Games the record by sports book asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,28 +31,30 @@ public class SBOTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost("sportsbook")]
-    public async ValueTask<GameRecorResultViewModel> GameRecordBySportsBookAsync(
-        [FromServices] IGetService<SBOTransferQuery, SBOTransferResult> service,
-         SBOTransferQueryViewModel source)
+    public ValueTask GameRecordBySportsBookAsync(
+        [FromServices] IMessageSender messageSender,
+        SBOTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new SBOTransferQuery(
-                ApiUrl: source.ApiUrl,
-                CompanyKey: source.CompanyKey,
-                Agent: source.Agent,
-                Portfolio: "SportsBook",
-                StartTime: source.StartTime,
-                EndTime: source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
+        var parameters = new
         {
-            Success = result.Success,
+            source.ApiUrl,
+            source.CompanyKey,
+            source.Agent,
+            Portfolio = "SportsBook",
+            source.StartTime,
+            source.EndTime
         };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.sbotf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 
     /// <summary>
     /// Games the record by virtual sports asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -67,21 +71,23 @@ public class SBOTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost("virtualsports")]
-    public async ValueTask<GameRecorResultViewModel> GameRecordByVirtualSportsAsync(
-        [FromServices] IGetService<SBOTransferQuery, SBOTransferResult> service,
-         SBOTransferQueryViewModel source)
+    public ValueTask GameRecordByVirtualSportsAsync(
+        [FromServices] IMessageSender messageSender,
+        SBOTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new SBOTransferQuery(
-                ApiUrl: source.ApiUrl,
-                CompanyKey: source.CompanyKey,
-                Agent: source.Agent,
-                Portfolio: "VirtualSports",
-                StartTime: source.StartTime,
-                EndTime: source.EndTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
+        var parameters = new
         {
-            Success = result.Success,
+            source.ApiUrl,
+            source.CompanyKey,
+            source.Agent,
+            Portfolio = "VirtualSports",
+            source.StartTime,
+            source.EndTime
         };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.sbotf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }
