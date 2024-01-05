@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.Core.ApplicationServices.TFGamingTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -28,19 +31,21 @@ public class TFGamingTransferController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<TFGamingTransferQuery, TFGamingTransferResult> service,
-         TFGamingTransferQueryViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+        TFGamingTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new TFGamingTransferQuery(
-            ApiUrl: source.ApiUrl,
-            PrivateToken: source.PrivateToken,
-            StartTime: source.StartTime.UtcDateTime,
-            EndTime: source.EndTime.UtcDateTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel
+        var parameters = new
         {
-            Success = result.Success
+            source.ApiUrl,
+            source.PrivateToken,
+            source.StartTime,
+            source.EndTime
         };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.tftf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }
