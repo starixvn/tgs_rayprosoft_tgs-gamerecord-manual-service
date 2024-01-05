@@ -35,7 +35,7 @@ public class WGViaGamingController : ControllerBase
         [FromServices] IMessageSender messageSender,
          WGViaGamingQueryViewModel source)
     {
-        var data = new
+        var parameters = new
         {
             source.ApiUrl,
             source.PartnerCode,
@@ -46,8 +46,8 @@ public class WGViaGamingController : ControllerBase
         };
         return messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.manual.wgvia",
-            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
+            subject: "gp.gamerecord.wgvia.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
     }
 }
