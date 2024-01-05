@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text;
+
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.GameRounds.Schedule.Client;
-using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +14,7 @@ public class WMCasinoTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -29,17 +31,21 @@ public class WMCasinoTransferController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
-        WMCasinoTransferQueryViewModel source)
-        => client.WMCasino_ScheduleFormQueuedAsync(
-             gameProviderCode: "WMTF",
-             name: source.VendorId,
-             subject: "gp.gamerecord.scheduleform.wmtf.queued",
-             source: ScheduleFormSource.Manual,
-             apiUrl: source.ApiUrl,
-             vendorId: source.VendorId,
-             signature: source.Signature,
-             startTime: source.StartTime,
-             endTime: source.EndTime,
-             cancellationToken: HttpContext.RequestAborted);
+        [FromServices] IMessageSender messageSender,
+         WMCasinoTransferQueryViewModel source)
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.VendorId,
+            source.Signature,
+            source.StartTime,
+            source.EndTime
+        };
+        return messageSender
+            .PublishAsync(
+            subject: "gp.gamerecord.wmtf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
