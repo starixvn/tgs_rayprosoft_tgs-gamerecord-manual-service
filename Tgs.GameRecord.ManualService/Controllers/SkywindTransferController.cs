@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
 using Tgs.GameRounds.Schedule.Client;
 using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +15,7 @@ public class SkywindTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -24,24 +27,28 @@ public class SkywindTransferController : ControllerBase
     ///             "secretKey": "66a44892-54dc-488b-b755-1d1da4f8ad61",
     ///             "username": "PGT_brand_api_stg",
     ///             "password": "ArSg5e6CR2g1wIgB",
-    ///             "startTime": "2022-09-07T18:50:00+08:00",
-    ///             "endTime": "2022-09-07T18:55:00+08:00"
+    ///             "startTime": "2024-01-05T14:00:00+08:00",
+    ///             "endTime": "2024-01-05T15:00:00+08:00"
     ///          }
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         SkywindTransferQueryViewModel source)
-        => client.Skywind_ScheduleFormQueuedAsync(
-             gameProviderCode: "SWTF",
-             name: "Configuration",
-             subject: "gp.gamerecord.scheduleform.swtf.queued",
-             source: ScheduleFormSource.Manual,
-             apiUrl: source.ApiUrl,
-             secretKey: source.SecretKey,
-             username: source.Username,
-             password: source.Password,
-             startTime: source.StartTime,
-             endTime: source.EndTime,
-             cancellationToken: HttpContext.RequestAborted);
+    {
+        var parameters = new
+        {
+            source.ApiUrl,
+            source.SecretKey,
+            source.Username,
+            source.Password,
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.swtf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
+    }
 }
