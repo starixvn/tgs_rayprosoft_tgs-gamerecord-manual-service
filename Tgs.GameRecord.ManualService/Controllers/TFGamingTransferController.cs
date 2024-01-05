@@ -1,9 +1,8 @@
-﻿using System.Text.Json;
-using System.Text;
+﻿using System.Text;
+
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.TFGamingTransfer;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
