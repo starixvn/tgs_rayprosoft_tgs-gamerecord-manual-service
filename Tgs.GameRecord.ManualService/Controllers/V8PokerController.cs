@@ -45,7 +45,7 @@ public class V8PokerController : ControllerBase
         };
         return messageSender
             .PublishAsync(
-            subject: "gp.gamerecord.manual.v8",
+            subject: "gp.gamerecord.v8.manual",
             data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)),
             cancellationToken: HttpContext.RequestAborted);
     }
