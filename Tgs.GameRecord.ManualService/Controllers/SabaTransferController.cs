@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.SabaTransfer;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +13,8 @@ public class SabaTransferController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
+    /// <param name="source">The source.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -24,25 +26,27 @@ public class SabaTransferController : ControllerBase
     ///             "apiUrl": "http://h0i2tsa.bw6688.com/",
     ///             "operatorId": "tg",
     ///             "vendorId": "um5vspnzkx",
-    ///             "startTime": "2022-10-27T15:50:00+08:00",
-    ///             "endTime": "2022-10-27T15:55:00+08:00"
+    ///             "startTime": "2023-08-24T18:15:00+08:00",
+    ///             "endTime": "2023-08-24T19:30:00+08:00"
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-        [FromServices] IGetService<SabaTransferQuery, SabaTransferResult> service,
-         SabaTransferQueryViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+        SabaTransferQueryViewModel source)
     {
-        var result = await service.GetAsync(new SabaTransferQuery(
-            ApiUrl: source.ApiUrl,
-            OperatorId: source.OperatorId,
-            VendorId: source.VendorId,
-            StartTime: source.StartTime.UtcDateTime,
-            EndTime: source.EndTime.UtcDateTime)).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel()
+        var parameters = new
         {
-            Success = result.Success,
+            source.ApiUrl,
+            source.OperatorId,
+            source.VendorId,
+            source.StartTime,
+            source.EndTime
         };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.sabatf.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }
