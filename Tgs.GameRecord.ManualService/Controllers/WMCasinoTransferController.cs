@@ -32,7 +32,7 @@ public class WMCasinoTransferController : ControllerBase
     [HttpPost]
     public ValueTask GameRecordAsync(
         [FromServices] IMessageSender messageSender,
-         WMCasinoTransferQueryViewModel source)
+        WMCasinoTransferQueryViewModel source)
     {
         var parameters = new
         {

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tgs.GameRecord.ManualService.Core.ApplicationServices.YeeBet;
+﻿using System.Text;
+
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,7 +14,7 @@ public class YeeBetController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="service">The service.</param>
+    /// <param name="messageSender">The message sender.</param>
     /// <param name="source">The source.</param>
     /// <returns></returns>
     /// <remarks>
@@ -28,20 +30,22 @@ public class YeeBetController : ControllerBase
     ///         }
     /// </remarks>
     [HttpPost]
-    public async ValueTask<GameRecorResultViewModel> GameRecordAsync(
-            [FromServices] IGetService<YeeBetQuery, YeeBetResult> service,
-            YeeBetViewModel source)
+    public ValueTask GameRecordAsync(
+        [FromServices] IMessageSender messageSender,
+        YeeBetViewModel source)
     {
-        var result = await service.GetAsync(new YeeBetQuery(
-            ApiUrl: source.ApiUrl,
-            AppId: source.AppId,
-            SecretKey: source.SecretKey,
-            BeginTime: source.StartTime,
-            EndTime: source.EndTime), HttpContext.RequestAborted).ConfigureAwait(false);
-
-        return new GameRecorResultViewModel
+        var parameters = new
         {
-            Success = result.Success
+            source.ApiUrl,
+            source.AppId,
+            source.SecretKey,
+            source.StartTime,
+            source.EndTime
         };
+        return messageSender
+            .PublishAsync(
+            subject: "gp.gamerecord.yeebet.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
+            cancellationToken: HttpContext.RequestAborted);
     }
 }
