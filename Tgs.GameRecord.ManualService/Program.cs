@@ -41,24 +41,17 @@ builder.Services.AddSwaggerGen(c =>
     }
 });
 
-builder.Services.AddManualServiceCore(
-  (options, sp) =>
-  {
-      var configuration = sp.GetRequiredService<IConfiguration>();
-      options.BaseUrl = configuration.GetValue<Uri>("GameRecord:GameRoundsScheduleClientBaseUrl")!;
-  });
-
 builder.Services
     .AddMessageQueue()
-     .AddNatsMessageQueue(natsConfig =>
-     {
-         _ = natsConfig
-         .ConfigQueueOptions((options, sp) =>
-         {
-             var configuration = sp.GetRequiredService<IConfiguration>();
-             options.Url = configuration.GetConnectionString("Nats")!;
-         });
-     })
+    .AddNatsMessageQueue(natsConfig =>
+    {
+        _ = natsConfig
+        .ConfigQueueOptions((options, sp) =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
+            options.Url = configuration.GetConnectionString("Nats")!;
+        });
+    })
     .ClearAllExchanges()
     .AddNatsGlobPatternExchange("*");
 

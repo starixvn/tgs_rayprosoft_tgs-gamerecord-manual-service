@@ -2,10 +2,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.GameRounds.Schedule.Client;
-using Tgs.GameRounds.Schedule.Protos;
 using Valhalla.MessageQueue;
-using System.Runtime.ConstrainedExecution;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 

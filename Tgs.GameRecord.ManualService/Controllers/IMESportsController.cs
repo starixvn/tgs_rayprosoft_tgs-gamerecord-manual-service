@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Tgs.GameRecord.ManualService.ViewModels;
-using Tgs.GameRounds.Schedule.Client;
-using Tgs.GameRounds.Schedule.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.GameRecord.ManualService.Controllers;
 
@@ -12,8 +13,8 @@ public class IMESportsController : ControllerBase
     /// <summary>
     /// Games the record asynchronous.
     /// </summary>
-    /// <param name="client">The client.</param>
-    /// <param name="source">The source.</param>
+    /// <param name="messageSender"></param>
+    /// <param name="source"></param>
     /// <returns></returns>
     /// <remarks>
     /// <b>Example</b><br />
@@ -29,18 +30,22 @@ public class IMESportsController : ControllerBase
     /// </remarks>
     [HttpPost]
     public ValueTask GameRecordAsync(
-        [FromServices] IGameRoundsScheduleClient client,
+        [FromServices] IMessageSender messageSender,
         InplayMatrixESportsViewModel source)
-        => client
-        .InplayMatrix_ScheduleFormQueuedAsync(
-            gameProviderCode: "IM_ESP",
-            name: source.MerchantPrefix,
-            subject: "gp.gamerecord.scheduleform.im.esp.queued",
-            source: ScheduleFormSource.Manual,
-            apiUrl: source.ReportUrl,
-            merchantCode: source.MerchantCode,
-            merchantPrefix: source.MerchantPrefix,
-            startTime: source.StartTime,
-            endTime: source.EndTime,
+    {
+        var parameters = new
+        {
+            GameProviderCode = "IM_ESP",
+            source.ReportUrl,
+            source.MerchantCode,
+            source.MerchantPrefix,
+            source.StartTime,
+            source.EndTime
+        };
+
+        return messageSender.PublishAsync(
+            subject: "gp.gamerecord.im.manual",
+            data: Encoding.UTF8.GetBytes(JsonSerializer.Serialize(parameters)),
             cancellationToken: HttpContext.RequestAborted);
+    }
 }
