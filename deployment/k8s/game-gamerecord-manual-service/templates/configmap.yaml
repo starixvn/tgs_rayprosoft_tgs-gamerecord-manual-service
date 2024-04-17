@@ -10,9 +10,6 @@ data:
         "LogLevel": {
           "Default": "Warning"
         }
-      },
-      "GameRecord": {
-        "GameRoundsScheduleClientBaseUrl": "http://game-gamerounds-schedule:9090/"
       }
     }
   otel-collector-config.yaml: |

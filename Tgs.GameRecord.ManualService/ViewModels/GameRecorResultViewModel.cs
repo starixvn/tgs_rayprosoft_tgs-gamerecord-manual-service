@@ -2,5 +2,5 @@
 
 public record GameRecorResultViewModel
 {
-    public bool Success { get; init; }
+	public bool Success { get; init; }
 }

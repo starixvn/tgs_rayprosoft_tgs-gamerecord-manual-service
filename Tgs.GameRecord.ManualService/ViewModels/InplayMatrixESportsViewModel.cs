@@ -5,18 +5,18 @@ namespace Tgs.GameRecord.ManualService.ViewModels;
 
 public record InplayMatrixESportsViewModel
 {
-    [Required]
-    [DataType(DataType.Url)]
-    public Uri ReportUrl { get; init; } = default!;
-    [Required]
-    public string MerchantCode { get; init; } = default!;
-    [Required]
-    public string MerchantPrefix { get; init; } = default!;
-    [Required]
-    [DataType(DataType.DateTime)]
-    public DateTimeOffset StartTime { get; init; }
-    [Required]
-    [DataType(DataType.DateTime)]
-    [DateTimeRangeDayAttribute("StartTime", 1)]
-    public DateTimeOffset EndTime { get; init; }
+	[Required]
+	[DataType(DataType.Url)]
+	public Uri ReportUrl { get; init; } = default!;
+	[Required]
+	public string MerchantCode { get; init; } = default!;
+	[Required]
+	public string MerchantPrefix { get; init; } = default!;
+	[Required]
+	[DataType(DataType.DateTime)]
+	public DateTimeOffset StartTime { get; init; }
+	[Required]
+	[DataType(DataType.DateTime)]
+	[DateTimeRangeDayAttribute("StartTime", 1)]
+	public DateTimeOffset EndTime { get; init; }
 }
