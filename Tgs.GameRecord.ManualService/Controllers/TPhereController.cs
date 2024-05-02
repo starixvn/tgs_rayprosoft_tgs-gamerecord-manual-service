@@ -24,7 +24,7 @@ public class TPhereController : ControllerBase
 	///		使用遊戲商注單查詢->爬回時間
 	///     Post
 	///         {
-	///				"apiUrl": "https://apidemo.tphere.com/",
+	///				"apiBetUrl": "https://apidemo.tphere.com/",
 	///				"apiKey": "6309572cf90658e17847a7b021723106",
 	///				"apiToken": "29dad28e8ab9c9855e6aa4b9a9e4a869325931d4976dfcf53266ccbe0c5f3387ea48258c002e3543edbb35f63caa5cacc65ac5c664ccfe0619e1d63018a87dbb",
 	///				"startTime": "2024-04-15T14:00:00+08:00",
@@ -38,7 +38,7 @@ public class TPhereController : ControllerBase
 	{
 		var parameters = new
 		{
-			source.ApiUrl,
+			ApiUrl = source.ApiBetUrl,
 			source.ApiKey,
 			source.ApiToken,
 			source.StartTime,
@@ -63,7 +63,7 @@ public class TPhereController : ControllerBase
 	///		使用遊戲商注單查詢->下注時間
 	///     Post
 	///         {
-	///				"apiUrl": "https://apidemo.tphere.com/",
+	///				"apiBetUrl": "https://apidemo.tphere.com/",
 	///				"apiKey": "6309572cf90658e17847a7b021723106",
 	///				"apiToken": "29dad28e8ab9c9855e6aa4b9a9e4a869325931d4976dfcf53266ccbe0c5f3387ea48258c002e3543edbb35f63caa5cacc65ac5c664ccfe0619e1d63018a87dbb",
 	///				"startTime": "2024-04-15T14:25:00+08:00",
@@ -77,7 +77,7 @@ public class TPhereController : ControllerBase
 	{
 		var parameters = new
 		{
-			source.ApiUrl,
+			ApiUrl = source.ApiBetUrl,
 			source.ApiKey,
 			source.ApiToken,
 			source.StartTime,

@@ -7,7 +7,7 @@ public record TPhereViewModel
 {
 	[Required]
 	[DataType(DataType.Url)]
-	public Uri ApiUrl { get; init; } = default!;
+	public Uri ApiBetUrl { get; init; } = default!;
 	[Required]
 	public string ApiKey { get; init; } = default!;
 	[Required]
