@@ -18,7 +18,7 @@ public class GTPlaytechController : ControllerBase
 	[HttpPost]
 	public ValueTask GameRecordAsync(
 		[FromServices] IMessageSender messageSender,
-		GTExpanseViewModel source)
+		GTPlaytechViewModel source)
 	{
 		var parameters = new
 		{
